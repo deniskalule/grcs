@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}
+Badge in gadget
+{% endblock %}
+{% block content %}
+
+<div class="title bg-white pt-2" style="display: flex;">
+    <div class="menu text-dark" id="btn">
+        <i class="fas fa-bars    "></i>
+    </div>
+    <h5 class="text-left" style="font-weight: 600; margin-left: 10px;">BADGED IN STAFF LIST</h5>
+    <p class="text-right" style="margin-left: 60%;">
+      <img src="https://www.svgrepo.com/show/311063/person.svg" width="30" height="30" alt="">
+      {{username}}
+    </p>
+</div>
+<a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary mt-2" style="font-size: 13px; margin-left: 90%;">Badge in new</a>
+<table class="table m-3">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Employee ID</th>
+            <th>Bank Gadget</th>
+            <th>Personal Gadget</th>
+            <th>Serial Number</th>
+            <th>Gate</th>
+            <th>Date/time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td scope="row">{{result.id}}</td>
+            <td>{{result.employee_ID}}</td>
+            <td>{{result.bank_gadget}}</td>
+            <td>{{result.personal_gadget}}</td>
+            <td>{{result.serial_number}}</td>
+            <td>{{result.gate}}</td>
+            <td>{{result.date_time}}</td>
+            <td class="text-center">
+                <a href=""><i class="fas fa-edit    "></i></a>
+                <!-- <a href="" class=""><i class="text-danger fa fa-trash" aria-hidden="true"></i></a> -->
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock%}

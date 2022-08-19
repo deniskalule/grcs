@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}
+Badge Out gadget
+{% endblock %}
+{% block content %}
+<!-- <div class="container"> -->
+    <div class="title bg-white pt-2" style="display: flex;">
+        <div class="menu text-dark" id="btn">
+            <i class="fas fa-bars    "></i>
+        </div>
+        <h5 class="text-left" style="font-weight: 600; margin-left: 10px;">BADGE OUT STAFF</h5>
+        <p class="text-right" style="margin-left: 60%;">
+          <img src="https://www.svgrepo.com/show/311063/person.svg" width="30" height="30" alt="">
+          {{username}}
+        </p>
+    </div>
+
+    
+      
+<!-- </div> -->
+<!-- register personal gadget -->
+<!-- <right> -->
+  <a href="" style="float: right; font-size: 12px;" class="btn btn-primary m-3">View list</a>
+<!-- </right> -->
+    
+    <div class="register">
+      <h5 class="text-left" style="font-weight: 600; margin-left: 10px;"></h5>
+      <div class="row">
+        
+        <div>
+          <table class="table mt-3">
+            <thead>
+                <tr>
+                  <th>Employee </th>
+                  <th>Bank Gadget</th>
+                  <th>Personal Device</th>
+                  <th>Number of gadgets</th>
+                  <th>Date/time</th>
+                  <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- {% for result in results %} -->
+                <tr style="font-size: 13px;">
+                  <td scope="row">00117</td>
+                  <td>None</td>
+                  <td>Dell</td>
+                  <td>1</td>
+                  <td></td>
+                  <td class="text-center">
+                      <a href="delete_badge/{{result.id}}/?username={{username}}&gate={{gate}}" class="btn btn-danger" style="font-size: 12px;">Badge Out</a>
+                  </td>
+                </tr>
+                <!-- {%endfor%} -->
+            </tbody>
+        </table>
+  
+      </div>
+    </div>
+{% endblock%}

@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% block title %}
+Badge in gadget
+{% endblock %}
+{% block content %}
+
+<!-- <div class="container"> -->
+    <div class="title bg-white pt-2" style="display: flex;">
+        <div class="menu text-dark" id="btn">
+            <i class="fas fa-bars    "></i>
+        </div>
+        <h5 class="text-left" style="font-weight: 600; margin-left: 10px;">BADGE IN GADGETS</h5>
+        <p class="text-right" style="margin-left: 60%;">
+          <img src="https://www.svgrepo.com/show/311063/person.svg" width="30" height="30" alt="">
+          {{username}}
+        </p>
+        
+    </div>
+    <div class="category m-3">
+      <div class="form-group">
+        <label for="">Category:</label>
+        <select name="category" id="category" onchange="choosecategory()" class="form-control" style="width: 400px;">
+          <option value="">------------</option>
+          <option value="staff" style="font-size: 15px;">STAFF</option>
+          <option value="nonstaff" style="font-size: 15px;">NON-STAFF</option>
+        </select>
+      </div>
+    </div>
+<!-- staff -->
+    <div class="row staff" id="staff" style="display: none;">
+      <div class="col-lg-4">
+        <div class="  bg-white shadow p-3" style="width: ; margin-left: 20px;">
+          <!-- <form action="" class="form" method="post" style="font-size: 13px;"> -->
+            <h5 class="text-left mb-3">Enter Staff Details</h5>
+            <div class="row">
+              <div class="form-group col-6">
+                <label for="">Employee ID: </label>
+                <input type="text" name="employee_id" id="employee_id" class="form-control" value="" style="height: 30px">
+              </div>
+              <div class="form-group col-6 mb-2" >
+                <label for=""> Gadget Owner: </label>
+                <select name="gadget_owner" id="gadget_owner" onchange="chooseowner()" class="form-control"  style="height: 30px">
+                  <option value="">------</option>
+                  <option value="Bank">Bank</option>
+                  <option value="Personal">Personal</option>
+                </select>
+              </div>
+              
+            </div>
+            <div class="row" id="bank" style="display: none;">
+              <div class="form-group mb-2">
+                <label for="">Bank Gadget ID</label>
+                <input type="text" name="bgadget_id" id="bgadget_id" class="form-control" style="height: 30px">
+              </div>
+            </div>
+            <div class="row" id="personal" style="display: none;">
+              <div class="form-group mb-2 col-6">
+                <label for="">Gadget name:</label>
+                <input type="text" name="pgadget_name" id="pgadget_name" class="form-control" style="height: 30px">
+              </div>
+              <div class="form-group mb-2 col-6">
+                <label for="">Serial number:</label>
+                <input type="text" name="serial_number" id="serial_number" class="form-control" style="height: 30px">
+              </div>
+            </div>
+            <button id="add" class="form-control btn-success" onclick="displaystaff()">Add Gadget</button>
+          <!-- </form> -->
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <form action="{% url 'badgeIn_staff' %}?username={{username}}&gate={{gate}}" method="post">
+          {% csrf_token %}
+          <table class="table" id="display">
+            <thead>
+              <tr>
+                <th>Employee ID</th>
+                <th>Bank Gadget ID</th>
+                <th>Personal Gadget</th>
+                <th>Serial Number</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+          <input type="submit" value="BADGE IN" class="text-white rounded p-1" style="background-color: #2A0403; float: right;">
+        </form>
+      </div>
+    </div>
+<!-- non staff -->
+    <div class="row nonstaff" id="nonstaff" style="display: none;">
+      <div class="col-lg-4">
+        <div class="  bg-white shadow p-3" style="width: ; margin-left: 20px;">
+          
+          <!-- <form action="" style="font-size: 13px;"> -->
+            <!-- {% csrf_token %} -->
+            <h5 class="text-left mb-3">Enter Non Staff Details</h5>
+            <div class="row">
+              <div class="form-group col-6">
+                <label for="">Visitor ID: </label>
+                <input type="text" id="visitor_id" class="form-control" value="" style="height: 30px">
+              </div>
+              <div class="form-group col-6 mb-2" >
+                <label for=""> Full name: </label>
+                <input type="text" id="name"  class="form-control" c style="height: 30px">
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="form-group mb-2 col-6">
+                <label for="">Dest.Dept:</label>
+                <input type="text" id="dest_dept"  class="form-control" style="height: 30px">
+              </div>
+              <div class="form-group mb-2 col-6">
+                <label for="">Contact:</label>
+                <input type="text" id="contact"  class="form-control" style="height: 30px">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group mb-2 col-6">
+                <label for="">Gadget Name:</label>
+                <input type="text" id="gadget_name"  class="form-control" style="height: 30px">
+              </div>
+              <div class="form-group mb-2 col-6">
+                <label for="">Serial number:</label>
+                <input type="text" id="serial_number"  class="form-control" style="height: 30px">
+              </div>
+            </div>
+            <button id="add" class="form-control btn-success" onclick="display()">Add Gadget</button>  
+          <!-- </form> -->
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <form action="{% url 'badgeIn_nonstaff' %}?username={{username}}&gate={{gate}}" method="post">
+          {% csrf_token %}
+          <table class="table" id="show">
+            <thead>
+              <tr>
+                <th>Visitor ID</th>
+                <th>Name</th>
+                <th>Dest Dept</th>
+                <th>Contact</th>
+                <th>Gadget no</th>
+                <th>Serial No</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <input type="submit" value="BADGE IN" class="text-white rounded p-1" style="background-color: #2A0403; float: right;">
+        </form>
+      </div>
+    </div>
+
+    <!-- <script src="https://unpkg.com/html5-qrcode"></script> -->
+    <script>
+
+      function choosecategory()
+      {
+        var category = document.getElementById("category");
+        if(category.value == "staff")
+        {
+
+          // alert('success');
+          document.getElementById("staff").style.display = "flex";
+          document.getElementById("nonstaff").style.display = "none";
+        }
+
+        else if(category.value == "nonstaff")
+        {
+          document.getElementById("nonstaff").style.display = "flex";
+          document.getElementById("staff").style.display = "none";
+        }
+        else
+        {
+          document.getElementById("staff").style.display = "none";
+          document.getElementById("nonstaff").style.display = "none";
+        }
+      }
+
+      function chooseowner()
+      {
+        var owner = document.getElementById("gadget_owner");
+        if(owner.value == "Bank")
+        {
+
+          // alert('success');
+          document.getElementById("bank").style.display = "flex";
+          // document.getElementById("personal").style.display = "none";
+        }
+
+        else if(owner.value == "Personal")
+        {
+          // document.getElementById("bank").style.display = "flex";
+          document.getElementById("personal").style.display = "flex";
+        }
+        else
+        {
+          document.getElementById("bank").style.display = "none";
+          document.getElementById("personal").style.display = "none";
+        }
+      }
+      var row = 1;
+      var add = document.getElementById('add');
+      // add.addEventListener("click",display);
+
+      
+
+      function display()
+      {
+        var visitor_id= document.getElementById('visitor_id').value;
+        var name = document.getElementById('name').value;
+        var dest_dept= document.getElementById('dest_dept').value;
+        var contact= document.getElementById('contact').value;
+        var gadget_name=document.getElementById('gadget_name').value;
+        var serial_number= document.getElementById('serial_number').value;
+        
+        if(!visitor_id)
+        {
+          alert("Please fill all the fields");
+          return
+        }
+
+        var addrow = document.getElementById('show');
+        var new_row = addrow.insertRow(row);
+
+        var cel1 = new_row.insertCell(0);
+        var cel2 = new_row.insertCell(1);
+        var cel3 = new_row.insertCell(2);
+        var cel4 = new_row.insertCell(3);
+        var cel5 = new_row.insertCell(4);
+        var cel6 = new_row.insertCell(5);
+
+        cel1.innerHTML = '<input type="text" value="'+visitor_id+'" name="visitor_id" class="form-control bg-light" style="border:0px; margin-left: 0"  />';
+        cel2.innerHTML = '<input type="text" value="'+name+'" name="name" class="form-control bg-light" size="5" style="border:0px; padding-right: 3px;"  />';
+        cel3.innerHTML = '<input type="text" value="'+dest_dept+'" name="dest_dept" class="form-control bg-light" style="border:0px; margin: 0"  />';
+        cel4.innerHTML = '<input type="text" value="'+contact+'" name="contact" class="form-control bg-light" style="border:0px; margin: 0"  />';
+        cel5.innerHTML = '<input type="text" value="'+gadget_name+'" name="gadget_name" class="form-control bg-light" style="border:0px; margin: 0"  />';
+        // cel6.innerHTML = '<input type="text" value="'+serial_number+'" name="serial_number" class="form-control bg-light" style="border:0px; margin: 0;"  />';
+        cel6.innerHTML = serial_number;
+        row++;
+
+      }
+
+      function displaystaff()
+      {
+        var employee_id= document.getElementById('employee_id').value;
+        var bank_gadget = document.getElementById('bgadget_id').value;
+        var personal_gadget= document.getElementById('pgadget_name').value;
+        var serial_number= document.getElementById('serial_number').value;
+        
+        if(!employee_id)
+        {
+          alert("Please fill all the fields");
+          return
+        }
+
+        var addrow = document.getElementById('display');
+        var new_row = addrow.insertRow(row);
+
+        var cel1 = new_row.insertCell(0);
+        var cel2 = new_row.insertCell(1);
+        var cel3 = new_row.insertCell(2);
+        var cel4 = new_row.insertCell(3);
+
+        // cel1.innerHTML = employee_id;
+        cel1.innerHTML = '<input type="text" value="'+employee_id+'" name="employee_id" class="form-control bg-light" size="5" maxlength="4" style="border:0px;"  />';
+        cel2.innerHTML = '<input type="text" value="'+bank_gadget+'" name="bank_gadget" class="form-control bg-light" size="5" maxlength="4" style="border:0px;"  />';
+        cel3.innerHTML = '<input type="text" value="'+personal_gadget+'" name="personal_gadget" class="form-control bg-light" size="5" maxlength="4" style="border:0px;"  />';cel2.innerHTML = bank_gadget;
+        cel4.innerHTML = '<input type="text" value="'+serial_number+'" name="serial_number" class="form-control bg-light" size="5" maxlength="4" style="border:0px;"  />';
+
+        row++;
+
+      }
+      
+    </script>
+{% endblock%}
