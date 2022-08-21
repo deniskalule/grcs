@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}
+Badge Out gadget
+{% endblock %}
+{% block content %}
+<!-- <div class="container"> -->
+    <div class="title bg-white pt-2" style="display: flex;">
+        <div class="menu text-dark" id="btn">
+            <i class="fas fa-bars    "></i>
+        </div>
+        <h5 class="text-left" style="font-weight: 600; margin-left: 10px;">BADGE OUT STAFF</h5>
+        <p class="text-right" style="margin-left: 60%;">
+          <img src="https://www.svgrepo.com/show/311063/person.svg" width="30" height="30" alt="">
+          {{username}}
+        </p>
+    </div>
+
+    
+      
+<!-- </div> -->
+<!-- register personal gadget -->
+<!-- <right> -->
+  
+<!-- </right> -->
+    
+    <div class="register">
+      <h5 class="text-left" style="font-weight: 600; margin-left: 10px;"></h5>
+      <a href="{% url 'badgedoutstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">View list</a>
+      <div class="row">
+        
+        <div>
+          <table class="table mt-3">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Employee ID</th>
+                  <th>Bank Gadget</th>
+                  <th>Personal Gadget</th>
+                  <th>Serial Number (personal)</th>
+                  <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr style="font-size: 13px;">
+                  <td scope="row">{{result.id}}</td>
+                  <td>{{result.employee_ID}}</td>
+                  <td>{{result.bank_gadget}}</td>
+                  <td>{{result.personal_gadget}}</td>
+                  <td>{{result.serial_number}}</td>
+                  <td class="text-center">
+                      <a href="delete_bin_staff/{{result.id}}/?username={{username}}&gate={{gate}}" class="btn btn-danger" style="font-size: 12px;">Badge Out</a>
+                  </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+  
+      </div>
+    </div>
+{% endblock%}
