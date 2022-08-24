@@ -22,10 +22,11 @@ Badge Out gadget
 
 <div class="register">
   <h5 class="text-left" style="font-weight: 600; margin-left: 10px;"></h5>
-  <a href="{% url 'badgedoutnonstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">View list</a>
+  
   <div class="row">
     
-    <div class="modal-body ">
+    <div class="shadow m-2">
+      <a href="{% url 'badgedoutnonstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">View list</a>
       <table class="table mt-3">
         <thead>
             <tr>

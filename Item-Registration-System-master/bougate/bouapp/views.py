@@ -370,12 +370,32 @@ def badgeIn_staff(request):
     username = request.GET['username']
     gate = request.GET['gate']
     # results = Badge_staff.objects.only('employee_id')
-    if request.method == 'POST':
-        row = request.POST['row']
+    if request.method == 'POST' and request.POST['bank_gadget']:
+        
         post = Badge_staff()
         post.employee_ID = request.POST['employee_id']
         post.bank_gadget = request.POST['bank_gadget']
         post.bank_gadget_SN = request.POST['bserial_number']
+        # post.personal_gadget = request.POST['personal_gadget']
+        # post.serial_number = request.POST['serial_number']
+        post.gate = gate
+        post.save()
+    context={
+        'username': username,
+        'gate':gate
+    }
+    return render(request, 'badgeIn.html', context)
+
+
+
+def badgeIn(request):
+    username = request.GET['username']
+    gate = request.GET['gate']
+    if request.method == 'POST' and request.POST['personal_gadget']:
+        post = Badge_staff()
+        post.employee_ID = request.POST['employee_id']
+        # post.bank_gadget = request.POST['bank_gadget']
+        # post.bank_gadget_SN = request.POST['bserial_number']
         post.personal_gadget = request.POST['personal_gadget']
         post.serial_number = request.POST['serial_number']
         post.gate = gate
@@ -386,10 +406,6 @@ def badgeIn_staff(request):
         'gate':gate
     }
     return render(request, 'badgeIn.html', context)
-
-def badgeIn(request):
-    username = request.GET['username']
-    gate = request.GET['gate']
     context={
         'username':username,
         'gate':gate

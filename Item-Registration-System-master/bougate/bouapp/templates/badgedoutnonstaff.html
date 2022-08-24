@@ -14,7 +14,8 @@ Badge in gadget
       {{username}}
     </p>
 </div>
-<a href="{% url 'badgeout_nonstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">Badge out</a>
+<div class="mt-2 shadow rounded">
+    <a href="{% url 'badgeout_nonstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">Badge out</a>
 <table class="table m-3">
     <thead>
         <tr>
@@ -49,4 +50,5 @@ Badge in gadget
         {%endfor%}
     </tbody>
 </table>
+</div>
 {% endblock%}

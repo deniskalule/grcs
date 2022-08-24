@@ -25,36 +25,74 @@ Badge Out gadget
     
     <div class="register">
       <h5 class="text-left" style="font-weight: 600; margin-left: 10px;"></h5>
-      <a href="{% url 'badgedoutstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">View list</a>
+      <!-- <a href="{% url 'badgedoutstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">View list</a> -->
       <div class="row">
         
-        <div>
+        <div class="col-6 ">
+          <div class="p-3 rounded mr-2 shadow">
+            <h6>Badge Out Bank Gadget</h6>
+            <hr width="250">
+            <table class="table mt-3">
+              <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Employee ID</th>
+                    <th>Bank Gadget</th>
+                    <th>Serial Number</th>
+                    <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for result in results %}
+                    {% if result.bank_gadget %}
+
+                    <tr style="font-size: 13px;">
+                      <td scope="row">{{result.id}}</td>
+                      <td>{{result.employee_ID}}</td>
+                      <td>{{result.bank_gadget}}</td>
+                      <td>{{result.bank_gadget_SN}}</td>
+                      <td class="text-center">
+                          <a href="delete_bin_staff/{{result.id}}/?username={{username}}&gate={{gate}}" class="btn btn-danger" style="font-size: 12px;">Badge Out</a>
+                      </td>
+                    </tr>
+
+                    {% endif %}
+                  {%endfor%}
+              </tbody>
+          </table>
+          </div>
+        </div>
+        <div class="col-6 p-3 rounded shadow">
+          <h6>Badge Out Personal Gadget</h6>
+          <hr width="250">
           <table class="table mt-3">
             <thead>
                 <tr>
                   <th>#</th>
                   <th>Employee ID</th>
-                  <th>Bank Gadget</th>
                   <th>Personal Gadget</th>
-                  <th>Serial Number (personal)</th>
+                  <th>Serial Number</th>
                   <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for result in results %}
-                <tr style="font-size: 13px;">
-                  <td scope="row">{{result.id}}</td>
-                  <td>{{result.employee_ID}}</td>
-                  <td>{{result.bank_gadget}}</td>
-                  <td>{{result.personal_gadget}}</td>
-                  <td>{{result.serial_number}}</td>
-                  <td class="text-center">
-                      <a href="delete_bin_staff/{{result.id}}/?username={{username}}&gate={{gate}}" class="btn btn-danger" style="font-size: 12px;">Badge Out</a>
-                  </td>
-                </tr>
+                  {% if result.personal_gadget %}
+                  <tr style="font-size: 13px;">
+                    <td scope="row">{{result.id}}</td>
+                    <td>{{result.employee_ID}}</td>
+                    <td>{{result.personal_gadget}}</td>
+                    <td>{{result.serial_number}}</td>
+                    <td class="text-center">
+                        <a href="delete_bin_staff/{{result.id}}/?username={{username}}&gate={{gate}}" class="btn btn-danger" style="font-size: 12px;">Badge Out</a>
+                    </td>
+                  </tr>
+                  {% endif %}
                 {%endfor%}
             </tbody>
         </table>
+        </div>
+          
   
       </div>
     </div>
