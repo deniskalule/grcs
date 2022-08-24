@@ -79,8 +79,8 @@ Home page
                                 <h6 class="card-title" style="font-weight: 600;">BADGED OUT GADGETS</h6>
                                 <hr>
                                 <div class="card-text" style="display: flex; justify-content:space-around;">
-                                    <a href="{% url 'badgedoutstaff' %}?username={{username}}&gate={{gate}}" style="text-decoration: none; font-weight: 600;" class="text-dark" >STAFF: <span style="font-size: 30px; margin-left: 5px;"></span></a><br>
-                                    <a href="{% url 'badgedoutnonstaff' %}?username={{username}}&gate={{gate}}" style="text-decoration: none; font-weight: 600;" class="text-dark">NON STAFF: <span style="font-size: 30px; margin-left: 5px;"></span></a>
+                                    <a href="{% url 'badgedoutstaff' %}?username={{username}}&gate={{gate}}" style="text-decoration: none; font-weight: 600;" class="text-dark" >STAFF: <span style="font-size: 30px; margin-left: 5px;">{{bout_staff_count}}</span></a><br>
+                                    <a href="{% url 'badgedoutnonstaff' %}?username={{username}}&gate={{gate}}" style="text-decoration: none; font-weight: 600;" class="text-dark">NON STAFF: <span style="font-size: 30px; margin-left: 5px;">{{bout_nonstaff_count}}</span></a>
                                 </div>
                                 
                             </div>
@@ -105,17 +105,26 @@ Home page
             </a>
         </div> -->
     </div>
-    <div class="row">
-        <div class="col-6 bg-white shadow rounded p-2 mr-1">
-            <div>
-                <canvas id="myChart"></canvas>
-              </div>
+    <div class="row" >
+        <div class="row rounded p-2 ">
+            <div class="col-6  ">
+                <div class="mr-2 bg-white shadow p-2">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <!-- <div class="col-1">
+
+            </div> -->
+            <div class="col-6 ">
+                <div class="mr-2 bg-white shadow p-2">
+                    <canvas class="text-white" id="my1"></canvas>
+                </div>
+                
+            </div>
         </div>
-        <div class="col-6 bg-white shadow rounded p-2 ml-1">
-            <div>
-                <canvas id="my1"></canvas>
-              </div>
-        </div>
+        <!-- <div class=" bg-white shadow rounded p-2" style="margin-left: 3px;">
+            
+        </div> -->
     </div>
 </div>
 {% load static %}
@@ -148,11 +157,18 @@ Home page
   const data1 = {
     labels: label,
     datasets: [{
+      label: 'Badged out gadgets for staff',
+      backgroundColor: 'rgb(0,100,100)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: {{out_staff_count}},
+    },
+    {
       label: 'Badged out gadgets for non staff',
       backgroundColor: 'rgb(0,100,0)',
       borderColor: 'rgb(255, 99, 132)',
       data: {{bo_count}},
-    }]
+    }
+    ]
   };
 
   const config = {

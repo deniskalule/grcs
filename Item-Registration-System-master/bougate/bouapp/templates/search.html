@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}
+Badge in gadget
+{% endblock %}
+{% block content %}
+
+<div class="title bg-white pt-2" style="display: flex;">
+    <div class="menu text-dark" id="btn">
+        <i class="fas fa-bars    "></i>
+    </div>
+    <h5 class="text-left" style="font-weight: 600; margin-left: 10px;">SEARCH RESULTS</h5>
+    <p class="text-right" style="margin-left: 60%;">
+      <img src="https://www.svgrepo.com/show/311063/person.svg" width="30" height="30" alt="">
+      {{username}}
+    </p>
+    
+</div>
+
+<div class="container">
+    {% if searched and results and results %}
+        <h5 class="text-center alert-success mt-2 p-2">Results for: {{searched}}</h5>
+        <table class="table mt-3" style="font-size: 13px;">
+            <thead>
+                <tr>
+                    <th>Visitor_ID</th>
+                    <th>Full Name</th>
+                    <th>Dept visited</th>
+                    <th>Contact</th>
+                    <th>Gadget</th>
+                    <th>Date(badge in)</th>
+                    <th>Date(badge out)</th>
+                    <th>Gate used</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+
+                <tr>
+                    <td scope="row">{{result.visitor_ID}}</td>
+                    <td>{{result.fullname}}</td>
+                    <td>{{result.dest_dept}}</td>
+                    <td>{{result.contact}}</td>
+                    <td>{{result.gadget_name}}</td>
+                    <td>{{result.date_time}}</td>
+                    <td>{{result.date_time_out}}</td>
+                    <td>{{result.gate}}</td>
+                </tr>
+            
+                {% endfor %}
+                <!-- {% for result in results2 %}
+
+                <tr>
+                    <td scope="row">{{result2.employee_ID}}</td>
+                    <td>{{result2.bank_gadget}}</td>
+                    <td>{{result2.dest_dept}}</td>
+                    <td>{{result2.contact}}</td>
+                    <td>{{result2.gadget_name}}</td>
+                    <td>{{result2.date_time}}</td>
+                    <td>{{result2.date_time_out}}</td>
+                </tr>
+            
+                {% endfor %} -->
+                
+            </tbody>
+        </table>
+    {% elif searched and not results%}
+        <h4 class="text-center alert-danger mt-2">No results for {{searched}}</h4>
+    {% else %}
+        <h4 class="text-center alert-danger mt-2">Nothing to search, try again</h3>
+    {% endif %}
+</div>
+{% endblock %}

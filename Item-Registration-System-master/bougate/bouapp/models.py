@@ -49,7 +49,6 @@ class Item(models.Model):
     created_by = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     create_date = models.DateTimeField(default=datetime.now, blank=True)
     last_update_date = models.DateTimeField(default=datetime.now, blank=True)
-
     last_updated_by = models.CharField(default='admin', max_length=20)
 
     def __str__(self):
@@ -90,9 +89,11 @@ class Badge(models.Model):
 class Badge_staff(models.Model):
     employee_ID = models.CharField(max_length=20)
     bank_gadget = models.CharField(max_length=20,default='none')
+    bank_gadget_SN = models.CharField(max_length=20,default='none')
     personal_gadget = models.CharField(max_length=50,default='none')
     serial_number = models.CharField(max_length=100,default='none')
     date_time = models.DateTimeField(default=datetime.now, blank=False)
+    date_time_out = models.DateTimeField(default=datetime.now, blank=False)
     gate = models.CharField(max_length=20, choices=gate_select, default='none')
     badge_status = models.CharField(max_length=20,default="in")
     
@@ -109,8 +110,8 @@ class Badge_nonstaff(models.Model):
     gadget_name = models.CharField(max_length=50)
     serial_number = models.CharField(max_length=100,default='none')
     date_time = models.DateTimeField(default=datetime.now, blank=False)
-    # date_time_out = models.DateTimeField(default=datetime.now, blank=False)
-    gate = models.CharField(max_length=20, choices=gate_select, default='none')
+    date_time_out = models.DateTimeField(default=datetime.now, blank=False)
+    gate = models.CharField(max_length=20, choices=gate_select, default='none') 
     badge_status = models.CharField(max_length=20,default="in")
     # badgeout_status = models.CharField(max_length=20, choices=badgeout_status, default="none")
 

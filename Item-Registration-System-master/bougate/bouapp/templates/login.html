@@ -15,15 +15,23 @@
       .login
       {
         margin-top: 30px;
-        background-color: rgba(0, 0, 0, 0.507);
+        /* background-color: rgba(0, 0, 0, 0.907); */
         padding-bottom: 20px;
         height: 100vh;
+      }
+      .login1
+      {
+        background-color: rgba(0, 0, 0, 0.575);
+      }
+      h4,h2
+      {
+        text-shadow: 2px 2px #000;
       }
     </style>
   </head>
   <body>
     {% load static %}
-    <div class="container-fluid" style="height: 100vh; background: url('{% static 'bg2.jpg' %}'); background-repeat: no-repeat; background-size: cover; background-position: center;">
+    <div class="container-fluid" style="height: 100vh; background: url('{% static 'bg6.jpg' %}'); background-repeat: no-repeat; background-size: cover; background-position: center;">
       <div class="row login">
         <div class="col-lg-3"></div>
         <div class="col-lg-6" style="padding-top: 60px;">
@@ -31,17 +39,17 @@
             {% load static %}
             <img src="{% static 'bou.png'%}" height="50px" alt="" width="70" height="550">
           </center>
-          <h4 class="text-center text-white">BANK OF UGANDA</h4>
-          <h6 class="text-center text-white mb-4">GADGET REGISTRATION AND CLEARANCE SYSTEM</h6>
+          <h2 class="text-center text-white">BANK OF UGANDA</h2>
+          <h4 class="text-center text-white mb-4">GADGET REGISTRATION AND CLEARANCE SYSTEM</h4>
           <!-- login form -->
           <div class="row">
             <div class="col-3"></div>
             <div class="col-6">
-              <form action="{% url 'login'%}" method="post" class="shadow-md" style=" padding: 15px 25px; border: 2px solid rgb(15, 1, 1); border-radius: 20px; ">
+              <form action="{% url 'login'%}" method="post" class="shadow login1" style=" padding: 15px 25px; border: 2px solid rgb(15, 1, 1); border-radius: 20px; ">
                 {% csrf_token %}
                 <h6 class="text-center text-white">ADMIN LOGIN</h6>
                 {% for message in messages %}
-                <p class="text-danger text-center">{{ message }}</p>
+                <p class="alert-danger text-center">{{ message }}</p>
                 {% endfor %}
                 <div class="form-group text-white">
                   <label for="">Username: </label>

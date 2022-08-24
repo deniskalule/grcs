@@ -15,12 +15,12 @@ urlpatterns = [
     path('view_badge', views.view_badge, name='view_badge'),
     # Path for updating data in database
     path('update_person/<int:pk>/', views.update_person, name='update_person'),
-    path('update_item/<int:pk>/', views.update_item, name='update_item'),
-    path('update_badgein_nonstaff/<int:pk>/', views.update_badgein_nonstaff, name='update_badgein_nonstaff'),
+    path('update_badge_staff/<int:pk>/', views.update_badge_staff, name='update_badge_staff'),
+    path('update_badge_nonstaff/<int:pk>/', views.update_badge_nonstaff, name='update_badge_nonstaff'),
     path('update_badge_out/<int:pk>/', views.update_badge_out, name='update_badge_out'),
     # Path for Deleting data in database
     path('delete_badge/<int:pk>/', views.delete_badge, name='delete_badge'),
-    path('delete_bin_nonstaff/<int:pk>/', views.delete_bin_nonstaff, name='delete_bin_nonstaff'),
+    path('delete_bin_staff/<int:pk>/', views.delete_bin_staff, name='delete_bin_staff'),
     path('delete_item/<int:pk>/', views.delete_item, name='delete_item'),
     # Path for Searching data in database
     path('search_person', views.person_search_bar, name='search_person'),
@@ -35,7 +35,7 @@ urlpatterns = [
     path('badgedinnonstaff', views.badgedinnonstaff, name='badgedinnonstaff'),
     path('badgedinstaff', views.badgedinstaff, name='badgedinstaff'),
     path('badgeIn_staff', views.badgeIn_staff, name='badgeIn_staff'),
-    
+    path('search', views.search, name='search'),
 
 
 ]

@@ -76,9 +76,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME': 'grcs',
+        'NAME': 'db',
         'USER': 'postgres',
-        'PASSWORD': 'Kapistic4',
+        'PASSWORD': '123',
         'HOST': 'localhost'
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',

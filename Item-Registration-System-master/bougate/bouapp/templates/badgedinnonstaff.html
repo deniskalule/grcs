@@ -48,13 +48,13 @@ Badge in gadget
             <td class="text-center">
                 <!-- capturing data for -->
                 <!-- Button trigger modal -->
-                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <a href=""><i class="fas fa-edit    "></i></a>
-                    <span class="text-primary" style="font-size: 12px; ">Edit</span>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{result.id}}">
+                    <i class="fas fa-edit    "></i>
+                    <!-- <span class="text-primary" style="font-size: 12px; ">Edit</span> -->
                 </button>
                 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal{{result.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -62,57 +62,47 @@ Badge in gadget
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="{% url 'badgeIn_nonstaff' %}?username={{username}}&gate={{gate}}" method="post">
-                                
-                                {% for message in messages %}
-                                  <input type="text" class="m-2 form-control text-center text-dark" style="background-color: #FFFDD0; font-weight:600; font-size: 15px;" value="{{message}}">
-                                {% endfor %}
+                            <form action="update_badge_nonstaff/{{result.id}}/?username={{username}}&gate={{gate}}" method="post">
+                            
                                 {% csrf_token %}
                                 
                                 <div class="row">
                                   <div class="form-group col-6 mt-2">
-                                    <label for="">Name: </label>
-                                    <input type="text" name="NAME" class="form-control">
+                                    <label class="text-left" for="">Name: </label>
+                                    <input type="text" name="name" value="{{result.fullname}}" class="form-control">
                                   </div>
                                   <div class="form-group col-6 mt-2">
                                     <label for="">Visitor's ID: </label>
-                                    <input type="text" name="ID" class="form-control">
+                                    <input type="text" name="visitor_id" value="{{result.visitor_ID}}" class="form-control">
                                   </div>
                                 </div>
                                 <div class="row">
                                   <div class="form-group col-6 mt-2">
                                     <label for="">Department: </label>
-                                    <input type="text" name="DEPARTMENT" class="form-control">
+                                    <input type="text" name="dest_dept" value="{{result.dest_dept}}" class="form-control">
                                   </div>
                                   <div class="form-group col-6 mt-2">
                                     <label for="">Contact: </label>
-                                    <input type="text" name="CONTACT" class="form-control">
+                                    <input type="text" name="contact" value="{{result.contact}}" class="form-control">
                                   </div>
                                 </div>
                                 <div class="row">
                                   <div class="form-group col-6 mt-2">
                                     <label for="">Gadget: </label>
-                                    <input type="text" name="GADGET" class="form-control">
+                                    <input type="text" name="gadget_name" value="{{result.gadget_name}}" class="form-control">
                                   </div>
                                   <div class="form-group col-6 mt-2">
-                                    <label for="">Number of Gadgets: </label>
-                                    <input type="number" name="NO_GADGETS" class="form-control">
+                                    <label for="">Serial Number: </label>
+                                    <input type="text" name="serial_number" value="{{result.serial_number}}" class="form-control">
                                   </div>
                                 </div>
-                              
-                                <!-- <div class="row form-group"> -->
-                                  <!-- <div class="col-"> -->
-                                    <input type="submit" name="Submit" value="Update " class=" mt-3 mb-3 btn text-white" style = "background-color: #2A0403;">
-                                  <!-- </div> -->
-                                  <!-- <div class="col-6"> -->
-                                    
-                                  <!-- </div> -->
-                                <!-- </div> -->
+                                <div class="modal-footer mt-2">
+                                  <input type="submit" name="Submit" value="Update " class=" mt-3 mb-3 btn text-white btn-success" style = "background-color: #2A0403;">
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                  </div>
                               </form>
                         </div>
-                        <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        </div>
+                        
                     </div>
                     </div>
                 </div>

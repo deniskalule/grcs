@@ -20,38 +20,39 @@ Badge Out gadget
 <!-- </div> -->
 <!-- register personal gadget -->
 <!-- <right> -->
-  <a href="" style="float: right; font-size: 12px;" class="btn btn-primary m-3">View list</a>
+  
 <!-- </right> -->
     
     <div class="register">
       <h5 class="text-left" style="font-weight: 600; margin-left: 10px;"></h5>
+      <a href="{% url 'badgedoutstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">View list</a>
       <div class="row">
         
         <div>
           <table class="table mt-3">
             <thead>
                 <tr>
-                  <th>Employee </th>
+                  <th>#</th>
+                  <th>Employee ID</th>
                   <th>Bank Gadget</th>
-                  <th>Personal Device</th>
-                  <th>Number of gadgets</th>
-                  <th>Date/time</th>
+                  <th>Personal Gadget</th>
+                  <th>Serial Number (personal)</th>
                   <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- {% for result in results %} -->
+                {% for result in results %}
                 <tr style="font-size: 13px;">
-                  <td scope="row">00117</td>
-                  <td>None</td>
-                  <td>Dell</td>
-                  <td>1</td>
-                  <td></td>
+                  <td scope="row">{{result.id}}</td>
+                  <td>{{result.employee_ID}}</td>
+                  <td>{{result.bank_gadget}}</td>
+                  <td>{{result.personal_gadget}}</td>
+                  <td>{{result.serial_number}}</td>
                   <td class="text-center">
-                      <a href="delete_badge/{{result.id}}/?username={{username}}&gate={{gate}}" class="btn btn-danger" style="font-size: 12px;">Badge Out</a>
+                      <a href="delete_bin_staff/{{result.id}}/?username={{username}}&gate={{gate}}" class="btn btn-danger" style="font-size: 12px;">Badge Out</a>
                   </td>
                 </tr>
-                <!-- {%endfor%} -->
+                {%endfor%}
             </tbody>
         </table>
   

@@ -94,8 +94,11 @@
         <!-- links -->
         <div class="links">
           <div class= "search" style="margin-right: 10px;">
-            <input class="form-control mb-3" placeholder="Search">
-            {% comment %} <button>Search</button> {% endcomment %}
+            <form action="{% url 'search' %}?username={{username}}&gate={{gate}}" method="post" style="display: flex;">
+              {% csrf_token %}
+              <input class="form-control mb-3" name="searched" placeholder="Search" width="">
+              <button type="submit" class="btn bg-secondary ml-1" style="height: 40px;"><i class=" text-white fas fa-search    "></i></button>
+            </form>
           </div>
           
           <a href="{% url 'home' %}?username={{username}}&gate={{gate}}">

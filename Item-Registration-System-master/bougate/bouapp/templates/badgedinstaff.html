@@ -14,15 +14,27 @@ Badge in gadget
       {{username}}
     </p>
 </div>
-<a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary mt-2" style="font-size: 13px; margin-left: 90%;">Badge in new</a>
-<table class="table m-3">
+
+<div class="category mt-2">
+  <div class="form-group">
+    <label for="">Category:</label>
+    <select name="category" id="category" onchange="choosecategory()" class="form-control" style="width: 400px;">
+      <option value="">------------</option>
+      <option value="bank" style="font-size: 15px;">Bank Gadget</option>
+      <option value="personal" style="font-size: 15px;">Personal gadget</option>
+    </select>
+  </div>
+  
+</div>
+<div id="bank" style="display: none;">
+  <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary mt-2" style="font-size: 13px; margin-left: 90%;">Badge in new</a>
+<table class="table mt-1" id = "show" style="font-size: 13px;">
     <thead>
         <tr>
             <th>#</th>
             <th>Employee ID</th>
             <th>Bank Gadget</th>
-            <th>Personal Gadget</th>
-            <th>Serial Number</th>
+            <th>Serial No (Bank)</th>
             <th>Gate</th>
             <th>Date/time</th>
             <th>Actions</th>
@@ -30,21 +42,180 @@ Badge in gadget
     </thead>
     <tbody>
         {% for result in results %}
-        <tr>
+          {%if result.bank_gadget%}
+
+          <tr>
             <td scope="row">{{result.id}}</td>
             <td>{{result.employee_ID}}</td>
             <td>{{result.bank_gadget}}</td>
+            <td>{{result.bank_gadget_SN}}</td>
+            <td>{{result.gate}}</td>
+            <td>{{result.date_time}}</td>
+            <td class="text-center">
+                <!-- capturing data for -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{result.id}}">
+                    <i class="fas fa-edit    "></i>
+                    <!-- <span class="text-primary" style="font-size: 12px; ">Edit</span> -->
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal{{result.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="update_badge_staff/{{result.id}}/?username={{username}}&gate={{gate}}" method="post">
+                            
+                                {% csrf_token %}
+                                
+                                <div class="row">
+                                  <div class="form-group col-6 mt-2">
+                                    <label class="text-left" for="">Employee ID:</label>
+                                    <input type="text" name="employee_id" value="{{result.employee_ID}}" class="form-control">
+                                  </div>
+                                  <div class="form-group col-6 mt-2">
+                                    <label for="">Bank Gadget: </label>
+                                    <input type="text" name="bank_gadget" value="{{result.bank_gadget}}" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="form-group col-12 mt-2">
+                                    <label for="">Personal Gadget: </label>
+                                    <input type="text" name="personal_gadget" value="{{result.personal_gadget}}" class="form-control">
+                                  </div>
+                                  <div class="form-group col-12 mt-2">
+                                    <label for="">Serial Number: </label>
+                                    <input type="text" name="serial_number" value="{{result.serial_number}}" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="modal-footer mt-2">
+                                  <input type="submit" name="Submit" value="Update " class=" mt-3 mb-3 btn text-white btn-success" style = "background-color: #2A0403;">
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                              </form>
+                        </div>
+                        
+                    </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+          {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+<div id="personal" style="display: none;">
+  <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary mt-2" style="font-size: 13px; margin-left: 90%;">Badge in new</a>
+<table class="table mt-1" id = "show" style="font-size: 13px;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Employee ID</th>
+            <th>Personal Gadget</th>
+            <th>Serial No (Personal)</th>
+            <th>Gate</th>
+            <th>Date/time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+          {% if result.personal_gadget %}
+          <tr>
+            <td scope="row">{{result.id}}</td>
+            <td>{{result.employee_ID}}</td>
             <td>{{result.personal_gadget}}</td>
             <td>{{result.serial_number}}</td>
             <td>{{result.gate}}</td>
             <td>{{result.date_time}}</td>
             <td class="text-center">
-                <a href=""><i class="fas fa-edit    "></i></a>
-                <!-- <a href="" class=""><i class="text-danger fa fa-trash" aria-hidden="true"></i></a> -->
+                <!-- capturing data for -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{result.id}}">
+                    <i class="fas fa-edit    "></i>
+                    <!-- <span class="text-primary" style="font-size: 12px; ">Edit</span> -->
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal{{result.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="update_badge_staff/{{result.id}}/?username={{username}}&gate={{gate}}" method="post">
+                            
+                                {% csrf_token %}
+                                
+                                <div class="row">
+                                  <div class="form-group col-6 mt-2">
+                                    <label class="text-left" for="">Employee ID:</label>
+                                    <input type="text" name="employee_id" value="{{result.employee_ID}}" class="form-control">
+                                  </div>
+                                  <div class="form-group col-6 mt-2">
+                                    <label for="">Bank Gadget: </label>
+                                    <input type="text" name="bank_gadget" value="{{result.bank_gadget}}" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="form-group col-12 mt-2">
+                                    <label for="">Personal Gadget: </label>
+                                    <input type="text" name="personal_gadget" value="{{result.personal_gadget}}" class="form-control">
+                                  </div>
+                                  <div class="form-group col-12 mt-2">
+                                    <label for="">Serial Number: </label>
+                                    <input type="text" name="serial_number" value="{{result.serial_number}}" class="form-control">
+                                  </div>
+                                </div>
+                                <div class="modal-footer mt-2">
+                                  <input type="submit" name="Submit" value="Update " class=" mt-3 mb-3 btn text-white btn-success" style = "background-color: #2A0403;">
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                  </div>
+                              </form>
+                        </div>
+                        
+                    </div>
+                    </div>
+                </div>
             </td>
         </tr>
+          {% endif %}
         {% endfor %}
     </tbody>
 </table>
+</div>
+
+<script>
+  function choosecategory()
+      {
+        var category = document.getElementById("category");
+        if(category.value == "bank")
+        {
+          // alert('success');
+          document.getElementById("bank").style.display = "block";
+          document.getElementById("personal").style.display = "none";
+        }
+
+        else if(category.value == "personal")
+        {
+          document.getElementById("personal").style.display = "block";
+          document.getElementById("bank").style.display = "none";
+        }
+        else
+        {
+          document.getElementById("bank").style.display = "none";
+          document.getElementById("personal").style.display = "none";
+        }
+      }
+</script>
 
 {% endblock%}
+

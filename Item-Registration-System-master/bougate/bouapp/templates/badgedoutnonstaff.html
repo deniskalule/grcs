@@ -14,21 +14,20 @@ Badge in gadget
       {{username}}
     </p>
 </div>
-
+<a href="{% url 'badgeout_nonstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">Badge out</a>
 <table class="table m-3">
     <thead>
         <tr>
             <th>#</th>
-            <th>Visitor_ID</th>
+            <th>Visitor ID</th>
             <th>Full Name</th>
             <th>Dest Department</th>
             <th>Contact</th>
             <th>Gadget type</th>
-            <th>Number of gadgets</th>
+            <th>Serial Number</th>
             <!-- <th>Reason</th> -->
-            <th>Gate</th>
-            <th>Date/time</th>
-            <th>Actions</th>
+            <!-- <th>Date/time</th> -->
+            <!-- <th>Actions</th> -->
         </tr>
     </thead>
     <tbody>
@@ -39,18 +38,15 @@ Badge in gadget
             <td>{{result.fullname}}</td>
             <td>{{result.dest_dept}}</td>
             <td>{{result.contact}}</td>
-            <td>{{result.gadget_type}}</td>
-            <td>{{result.no_of_gadgets}}</td>
-            <!-- <td>{{result.reason}}</td> -->
-            <td>{{result.gate}}</td>
-            <td>{{result.date_time_out}}</td>
-            <td class="text-center">
-                <a href=""><i class="fas fa-edit    "></i></a>
-                <a href="" class=""><i class="text-danger fa fa-trash" aria-hidden="true"></i></a>
-            </td>
+            <td>{{result.gadget_name}}</td>
+            <td>{{result.serial_number}}</td>
+            <!-- <td>{{result.gate}}</td> -->
+            <!-- <td>{{result.date_time}}</td> -->
+            <!-- <td class="text-center">
+                <a href="delete_badge/{{result.id}}/?username={{username}}&gate={{gate}}" class="btn btn-danger" style="font-size: 12px;">Badge Out</a>
+            </td> -->
         </tr>
         {%endfor%}
-        
     </tbody>
 </table>
 {% endblock%}
