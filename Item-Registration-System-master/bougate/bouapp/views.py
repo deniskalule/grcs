@@ -15,6 +15,7 @@ from django.contrib import messages
 from .forms import ItemForm, PersonForm, BadgeForm, BadgeFormOut
 from .models import *
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 
@@ -298,6 +299,8 @@ def delete_bin_staff(request, pk):
     badge.save()
     results = Badge_staff.objects.filter(badge_status='out')
     return render(request, 'badgedoutstaff.html', {"username":username,"gate":gate,"results":results})
+
+
     
 
 
@@ -371,13 +374,13 @@ def badgeIn_staff(request):
     gate = request.GET['gate']
     # results = Badge_staff.objects.only('employee_id')
     if request.method == 'POST' and request.POST['bank_gadget']:
-        
+        # row = request.POST['row']
+        # print(row)
+        # for x in row:
         post = Badge_staff()
         post.employee_ID = request.POST['employee_id']
         post.bank_gadget = request.POST['bank_gadget']
         post.bank_gadget_SN = request.POST['bserial_number']
-        # post.personal_gadget = request.POST['personal_gadget']
-        # post.serial_number = request.POST['serial_number']
         post.gate = gate
         post.save()
     context={
@@ -406,10 +409,7 @@ def badgeIn(request):
         'gate':gate
     }
     return render(request, 'badgeIn.html', context)
-    context={
-        'username':username,
-        'gate':gate
-    }
+    
 
     return render(request, 'badgeIn.html', context)
 
@@ -452,8 +452,13 @@ def badgedinstaff(request):
     username = request.GET['username']
     gate = request.GET['gate']
     results = Badge_staff.objects.all()
+
+    p = Paginator(Badge_staff.objects.all(),4)
+    page = request.GET.get('page')
+
+    staff = p.get_page(page)
     # results = Badge_nonstaff.objects.all()
-    return render(request, 'badgedinstaff.html', {"username":username,"gate":gate,"results":results})
+    return render(request, 'badgedinstaff.html', {"username":username,"gate":gate,"results":results, "staff":staff})
 
 # function for badged out staff list
 def badgedoutstaff(request):

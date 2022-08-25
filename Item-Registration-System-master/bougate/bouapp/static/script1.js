@@ -125,13 +125,27 @@ function choosecategory()
         cel1.innerHTML = '<input type="text" value="'+employee_id+'" name="employee_id" class="form-control bg-light" style="border:0px;"  />';
         cel2.innerHTML = '<input type="text" value="'+bank_gadget+'" name="bank_gadget" class="form-control bg-light"  style="border:0px;"  />';
         cel3.innerHTML = '<input type="text" value="'+bserial_number+'" name="bserial_number" class="form-control bg-light" size="5" style="border:0px;"  />';
-        cel4.innerHTML='<input type="text" value="'+row+'" name="row" class="form-control bg-light" size="5" style="border:0px;"  />';
+        cel4.innerHTML='<input type="checkbox" value="'+row+'" onchange="r()" id="row" name="row1" class="bg-light" size="5" checked />';
 
         cell1.innerHTML = '<input type="text" value="'+employee_id+'" name="employee_id" class="form-control bg-light" style="border:0px;"  />';
         cell2.innerHTML = '<input type="text" value="'+personal_gadget+'" name="personal_gadget" class="form-control bg-light" style="border:0px;"  />'
         cell3.innerHTML = '<input type="text" value="'+serial_number+'" name="serial_number" class="form-control bg-light" size="5" style="border:0px;"  />';
-        cell4.innerHTML = '<input type="text" value="'+row+'" name="row" class="form-control bg-light" size="5" style="border:0px;"  />';
+        cell4.innerHTML = '<input type="checkbox" value="'+row+'" onchange="r()" id="row" name="row" class="bg-light" size="5" checked/>';
 
+        
         row++;
+        var row_list=[];
+        for (var i=1;i<row;i++)
+        {
+          if(document.getElementById('row').checked == 1)
+          {
+            row_list.push(i);
+          }
+          // alert(row_list);
+        }
+
+        document.getElementById('output').value = row_list;
         
       }
+      
+      
