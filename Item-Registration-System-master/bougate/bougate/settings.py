@@ -76,13 +76,27 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME': 'db',
+        'NAME': 'db2',
         'USER': 'postgres',
         'PASSWORD': '123',
         'HOST': 'localhost'
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
+
+
     }
+    # 'default': {
+    #     'ENGINE': 'sql_server.pyodbc',
+    #     'NAME': 'db',
+    #     'USER': 'DESKTOP-RN3N3DU\JOTHAM',
+    #     'PASSWORD': 'BEHAVIOURAL22',
+    #     'HOST': 'DESKTOP-RN3N3DU\SQLEXPRESS',
+    #     'PORT': '',
+
+    #     'OPTIONS': {
+    #         'driver': 'ODBC Driver 17 for SQL Server',
+    #     },
+    # },
 }
 
 # Password validation

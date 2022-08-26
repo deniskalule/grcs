@@ -28,7 +28,7 @@ Badge in gadget
 </div> -->
 <div id="bank" >
   <div class="header mb-2" style="display: flex;  justify-content: space-between;">
-    <div class="pages">
+    <div class="pages mt-2 "style="padding-left: 5%;">
       {% if staff.has_previous %}
     
         <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page=1&username={{username}}&gate={{gate}}">&laquo;</a>
@@ -42,6 +42,9 @@ Badge in gadget
     </div>
     
     <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="btn btn-primary mt-2" style="font-size: 13px; height: 30px;">Badge in new</a>
+  </div>
+  <div class="header text-center">
+    <h5><b>BANK GADGETS</b></h5>
   </div>
 <table class="table mt-1 shadow rounded" id = "show" style="font-size: 13px;">
     <thead>
@@ -128,7 +131,10 @@ Badge in gadget
 </div>
 <div id="personal" style="">
   <!-- <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary mt-2" style="font-size: 13px; margin-left: 90%;">Badge in new</a> -->
-<table class="table mt-1 shadow rounded" id = "show" style="font-size: 13px;">
+  <div class="header text-center mt-3">
+    <h5><b>PERSONAL GADGETS</b></h5>
+  </div>
+  <table class="table mt-1 shadow rounded" id = "show" style="font-size: 13px;">
     <thead>
         <tr>
             <th>#</th>

@@ -418,7 +418,11 @@ def badgeout_staff(request):
     username = request.GET['username']
     gate = request.GET['gate']
     results = Badge_staff.objects.filter(badge_status="in")
-    return render(request, 'badgeout_staff.html', {"username":username,"gate":gate, 'results':results})
+    p = Paginator(Badge_staff.objects.filter(badge_status="in"),5)
+    page = request.GET.get('page')
+
+    staff = p.get_page(page)
+    return render(request, 'badgeout_staff.html', {"username":username,"gate":gate, 'results':results,"staff":staff})
 
 #function for badge in non staff
 def badgeIn_nonstaff(request):
@@ -444,7 +448,10 @@ def badgeIn_nonstaff(request):
 def badgeout_nonstaff(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    results = Badge_nonstaff.objects.filter(badge_status="in")
+    # results = Badge_nonstaff.objects.filter(badge_status="in")
+    p = Paginator(Badge_nonstaff.objects.filter(badge_status="in"),10)
+    page = request.GET.get('page')
+    results = p.get_page(page)
     return render(request, 'badgeout_nonstaff.html', {"username":username,"gate":gate,"results":results})
 
 # function for badged in staff list
@@ -453,7 +460,7 @@ def badgedinstaff(request):
     gate = request.GET['gate']
     results = Badge_staff.objects.all()
 
-    p = Paginator(Badge_staff.objects.all(),4)
+    p = Paginator(Badge_staff.objects.filter(badge_status="in"),5)
     page = request.GET.get('page')
 
     staff = p.get_page(page)
@@ -464,21 +471,31 @@ def badgedinstaff(request):
 def badgedoutstaff(request):
     username = request.GET['username']
     gate = request.GET['gate']
+    p = Paginator(Badge_staff.objects.filter(badge_status="out"),10)
+    page = request.GET.get('page')
+
+    staff = p.get_page(page)
     results = Badge_staff.objects.filter(badge_status="out")
-    return render(request, 'badgedoutstaff.html', {"username":username,"gate":gate,"results":results})
+    return render(request, 'badgedoutstaff.html', {"username":username,"gate":gate,"results":results,"staff":staff})
 
 # function for badged in nonstaff list
 def badgedinnonstaff(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    results = Badge_nonstaff.objects.all()
+    p = Paginator(Badge_nonstaff.objects.filter(badge_status="in"),7)
+    
+    page = request.GET.get('page')
+    results  = p.get_page(page)
     return render(request, 'badgedinnonstaff.html', {"username":username,"gate":gate,"results":results})
 
 # function for badged out non staff list
 def badgedoutnonstaff(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    results = Badge_nonstaff.objects.filter(badge_status="out")
+    p = Paginator(Badge_nonstaff.objects.filter(badge_status="out"),7)
+
+    page = request.GET.get('page')
+    results  = p.get_page(page)
     
     return render(request, 'badgedoutnonstaff.html', {"username":username,"gate":gate,"results":results})
 
@@ -493,11 +510,13 @@ def search(request):
         searched = request.POST['searched']
         results = Badge_nonstaff.objects.filter(Q(fullname__icontains=searched) | Q(visitor_ID__icontains=searched)| Q(dest_dept__icontains=searched) | Q(gate__icontains=searched))
         results2 = Badge_staff.objects.filter(Q(employee_ID__icontains=searched) | Q(bank_gadget__icontains=searched)| Q(personal_gadget__icontains=searched))
+        x = {'badge':'badge in','badge2': 'badge in staff'}
         context = {
             'username':username,
             'gate': gate,
             'searched': searched,
             'results':results,
-            'results2':results2
+            'results2':results2,
+            'x':x
         }
         return render(request, "search.html",context)

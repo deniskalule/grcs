@@ -86,7 +86,7 @@ function choosecategory()
         cel6.innerHTML = '<input type="text" value="'+serial_number+'" name="serial_number" class="form-control bg-light" style="border:0px; font-size: 15px; padding: 3px;"  />';
         // cel7.innerHTML = '<a href="" id="btn"><i class="text-danger fa fa-trash" aria-hidden="true"></i></a>';
         row++;
-        alert(row);
+        // alert(row);
 
       }
 

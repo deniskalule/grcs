@@ -15,9 +15,21 @@ Badge in gadget
     </p>
 </div>
 <div class="row m-2">
+  <div class="pages mt-2 mb-3" style="padding-left: 45%;">
+    {% if staff.has_previous %}
+  
+      <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page=1&username={{username}}&gate={{gate}}">&laquo;</a>
+      <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{staff.previous_page_number}}&username={{username}}&gate={{gate}}">Previous</a>
+    {% endif %}
+    <span style="font-size: 12px;">Pages {{staff.number}} of {{staff.paginator.num_pages}}</span>
+    {% if staff.has_next %}
+      <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{staff.next_page_number}}&username={{username}}&gate={{gate}}">next</a>
+      <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{staff.paginator.num_pages}}&username={{username}}&gate={{gate}}">&raquo;</a>
+    {% endif %}
+  </div>
   <div class="col-6 ">
     <div class="bank mr-2 shadow rounded p-3">
-      <h6>BANK GADGETS</h6>
+      <h6><b>BANK GADGETS</b></h6>
     <hr width="200">
     <a href="{% url 'badgeout_staff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary">Badge out</a>
     <table class="table">
@@ -51,7 +63,7 @@ Badge in gadget
   </div>
   <div class="col-6 shadow rounded ">
     <div class="personal p-3">
-      <h6>PERSONAL GADGETS</h6>
+      <h6><b>PERSONAL GADGETS</b></h6>
     <hr width="200">
     <a href="{% url 'badgeout_staff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary">Badge out</a>
     <table class="table">

@@ -24,7 +24,18 @@ Badge Out gadget
   <h5 class="text-left" style="font-weight: 600; margin-left: 10px;"></h5>
   
   <div class="row">
+    <div class="pages mt-2" style="padding-left: 45%;">
+      {% if results.has_previous %}
     
+        <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page=1&username={{username}}&gate={{gate}}">&laquo;</a>
+        <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{results.previous_page_number}}&username={{username}}&gate={{gate}}">Previous</a>
+      {% endif %}
+      <span style="font-size: 12px;">Pages {{results.number}} of {{results.paginator.num_pages}}</span>
+      {% if results.has_next %}
+        <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{results.next_page_number}}&username={{username}}&gate={{gate}}">next</a>
+        <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{results.paginator.num_pages}}&username={{username}}&gate={{gate}}">&raquo;</a>
+      {% endif %}
+    </div>
     <div class="shadow m-2">
       <a href="{% url 'badgedoutnonstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">View list</a>
       <table class="table mt-3">
