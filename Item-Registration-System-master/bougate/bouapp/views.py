@@ -12,7 +12,6 @@ from django.shortcuts import HttpResponse,HttpResponseRedirect
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ItemForm, PersonForm, BadgeForm, BadgeFormOut
 from .models import *
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -25,18 +24,23 @@ import calendar
 def home(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    bin_staff = Badge_staff.objects.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
-    bout_staff =Badge_staff.objects.filter(badge_status="out").annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
+    bin_staff_bank = Bank_gadgets.objects.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
+    bin_staff_personal = Personal_gadgets.objects.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
+    bout_staff_bank =Bank_gadgets.objects.filter(badge_status="out").annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
+    bout_staff_personal =Personal_gadgets.objects.filter(badge_status="out").annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
     badgein_nonstaff = Badge_nonstaff.objects.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
     badgeout_nonstaff =Badge_nonstaff.objects.filter(badge_status="out").annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
     
     #data for badged in staff
     monthNo=[]
     in_staff_count =[]
-    for d in bin_staff:
+    in_staff_count_personal=[]
+    for d in bin_staff_bank:
         monthNo.append(calendar.month_name[d['month']])
         in_staff_count.append(d['count'])
-
+    for d in bin_staff_personal:
+        monthNo.append(calendar.month_name[d['month']])
+        in_staff_count_personal.append(d['count'])
     #data for month and count for badged in non staff
     monthNumber=[]
     count = []
@@ -50,14 +54,19 @@ def home(request):
         bo_monthNumber.append(calendar.month_name[d['month']])
         bo_count.append(d['count'])
     out_staff_count=[]
-    for d in bout_staff:
-            out_staff_count.append(d['count'])
-    bin_staff_results = Badge_staff.objects.filter(badge_status="in")
-    bout_staff_results = Badge_staff.objects.filter(badge_status="out")
+    out_staff_count_personal=[]
+    for d in bout_staff_bank:
+        out_staff_count.append(d['count'])
+    for d in bout_staff_personal:
+        out_staff_count_personal.append(d['count'])
+    bin_staff_results_bank = Bank_gadgets.objects.filter(badge_status="in")
+    bin_staff_results_personal = Personal_gadgets.objects.filter(badge_status="in")
     bin_nonstaff_results = Badge_nonstaff.objects.filter(badge_status="in")
     bout_nonstaff_results = Badge_nonstaff.objects.filter(badge_status="out")
-    bin_staff_count = bin_staff_results.count()
-    bout_staff_count = bout_staff_results.count()
+    bout_staff_results_bank = Bank_gadgets.objects.filter(badge_status="out")
+    bout_staff_results_personal = Personal_gadgets.objects.filter(badge_status="out")
+    bin_staff_count = bin_staff_results_bank.count() + bin_staff_results_personal.count()
+    bout_staff_count = bout_staff_results_bank.count() + bout_staff_results_personal.count()
     bin_nonstaff_count = bin_nonstaff_results.count()
     bout_nonstaff_count = bout_nonstaff_results.count()
     context = {
@@ -69,7 +78,9 @@ def home(request):
         'gate':gate,
         'monthNumber':monthNumber,
         'in_staff_count':in_staff_count,
+        'in_staff_count_personal':in_staff_count_personal,
         'out_staff_count':out_staff_count,
+        'out_staff_count_personal':out_staff_count_personal,
         'count': count,
         'bo_monthNumber':bo_monthNumber,
         'bo_count': bo_count,
@@ -84,25 +95,33 @@ def login(request):
         password = request.POST['password']
         gate = request.POST['gate']
         user = auth.authenticate(username=username, password=password)
-        bin_staff_results = Badge_staff.objects.filter(badge_status="in")
+        bin_staff_results_bank = Bank_gadgets.objects.filter(badge_status="in")
+        bin_staff_results_personal = Personal_gadgets.objects.filter(badge_status="in")
         bin_nonstaff_results = Badge_nonstaff.objects.filter(badge_status="in")
         bout_nonstaff_results = Badge_nonstaff.objects.filter(badge_status="out")
-        bout_staff_results = Badge_staff.objects.filter(badge_status="out")
-        bin_staff_count = bin_staff_results.count()
-        bout_staff_count = bout_staff_results.count()
+        bout_staff_results_bank = Bank_gadgets.objects.filter(badge_status="out")
+        bout_staff_results_personal = Personal_gadgets.objects.filter(badge_status="out")
+        bin_staff_count = bin_staff_results_bank.count() + bin_staff_results_personal.count()
+        bout_staff_count = bout_staff_results_personal.count() + bout_staff_results_personal.count()
         bin_nonstaff_count = bin_nonstaff_results.count()
         bout_nonstaff_count = bout_nonstaff_results.count()
-        bin_staff = Badge_staff.objects.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
-        bout_staff =Badge_staff.objects.filter(badge_status="out").annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
+        bin_staff = Bank_gadgets.objects.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
+        bin_staff_personal = Personal_gadgets.objects.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
+        bout_staff =Bank_gadgets.objects.filter(badge_status="out").annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
+        bout_staff_results_personal =Personal_gadgets.objects.filter(badge_status="out").annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
         badgein_nonstaff = Badge_nonstaff.objects.annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
         badgeout_nonstaff =Badge_nonstaff.objects.filter(badge_status="out").annotate(month=ExtractMonth('date_time')).values('month').annotate(count=Count('id')).values('month','count')
         
         monthNo=[]
         in_staff_count =[]
+        in_staff_count_personal =[]
         out_staff_count =[]
         for d in bin_staff:
             monthNo.append(calendar.month_name[d['month']])
             in_staff_count.append(d['count'])
+        for d in bin_staff_personal:
+            monthNo.append(calendar.month_name[d['month']])
+            in_staff_count_personal.append(d['count'])
         monthNumber=[]
         count = []
         for d in badgein_nonstaff:
@@ -115,13 +134,17 @@ def login(request):
             bo_count.append(d['count'])
         for d in bout_staff:
             out_staff_count.append(d['count'])
+
+        out_staff_count_personal =[]
+        for d in bout_staff:
+            out_staff_count_personal.append(d['count'])
         if user is not None:
             # # auth.login(request, user)
             # # print('Login Successful!')
             if gate:
                 request.session['username'] = username
                 auth.login(request, user)
-                return render(request,'home.html',{'bin_staff_count': bin_staff_count,'bout_staff_count': bout_staff_count,'bin_nonstaff_count': bin_nonstaff_count,'bout_nonstaff_count': bout_nonstaff_count,"username":username,"gate":gate, "monthNumber":monthNumber,"count":count,'in_staff_count':in_staff_count,'out_staff_count':out_staff_count,'bo_monthNumber':bo_monthNumber,'bo_count':bo_count})
+                return render(request,'home.html',{'bin_staff_count': bin_staff_count,'bout_staff_count': bout_staff_count,'bin_nonstaff_count': bin_nonstaff_count,'bout_nonstaff_count': bout_nonstaff_count,"username":username,"gate":gate, "monthNumber":monthNumber,"count":count,'in_staff_count':in_staff_count,'in_staff_count_personal':in_staff_count_personal,'out_staff_count':out_staff_count,'out_staff_count_personal':out_staff_count_personal,'bo_monthNumber':bo_monthNumber,'bo_count':bo_count})
             else:
                 messages.error(request, 'Gate is not selected,Try again')
                 return redirect('login')
@@ -143,89 +166,42 @@ def logout(request):
         return redirect('login')
 
 
-# Creating, Validating and saving forms
-@login_required(login_url='home')
-def register_item(request):
-    form = ItemForm()
-    if request.method == 'POST':
-        form = ItemForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('badge')
-    else:
-        form = ItemForm()
-    context = {
-        "form_item": form
-    }
-    return render(request, 'register_item.html', context)
 
-
-@login_required(login_url='home')
-def person(request):
-    form = PersonForm()
-    if request.method == 'POST':
-        form = PersonForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('badge')
-    else:
-        form = PersonForm()
-    context = {
-        "form_person": form
-    }
-    return render(request, 'person.html', context)
-
-
-@login_required(login_url='home')
-def badge(request):
-    form = BadgeForm()
-    form_person = PersonForm()
-    form_item = ItemForm()
-    if request.method == 'POST':
-        form = BadgeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = BadgeForm()
-    context = {
-        "form_badge": form,
-        "form_person": form_person,
-        "form_item": form_item,
-        "username": username
-    }
-    return render(request, 'badge.html', context)
-
-
-# Creating Functions to Update data by the Users
-def update_person(request, pk):
-    person = Person.objects.get(id=pk)
-    form = PersonForm(instance=person)
-    if request.method == 'POST':
-        form = PersonForm(request.POST, instance=person)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {
-        'form': form
-    }
-    return render(request, 'update_person.html', context)
-
-
-def update_badge_staff(request, pk):
+def update_bank_gadget(request, pk):
     username = request.GET['username']
     gate = request.GET['gate']
-    badge = Badge_staff.objects.get(id=pk)
+    bank_results = Bank_gadgets.objects.all()
+    bank = Bank_gadgets.objects.get(id=pk)
     if request.method == 'POST':
-        badge.employee_ID = request.POST['employee_id']
-        badge.bank_gadget = request.POST['bank_gadget']
-        badge.personal_gadget = request.POST['personal_gadget']
-        badge.serial_number = request.POST['serial_number']
+        bank.employee_ID = request.POST['employee_id']
+        bank.bank_gadget = request.POST['bank_gadget']
+        bank.bank_gadget_SN = request.POST['bserial_number']
         # post.gate = gate
-        badge.save()
+        bank.save()
     context = {
         'username': username,
-        'gate':gate
+        'gate':gate,
+        'bank_results': bank_results
+    }
+    return render(request, 'badgedinstaff.html', context)
+
+def update_personal_gadget(request, pk):
+    username = request.GET['username']
+    gate = request.GET['gate']
+    bank_results = Bank_gadgets.objects.all()
+    personal_results = Personal_gadgets.objects.all()
+    personal = Personal_gadgets.objects.get(id=pk)
+    if request.method == 'POST':
+        personal.employee_ID = request.POST['employee_id']
+        personal.personal_gadget = request.POST['personal_gadget']
+        personal.serial_number = request.POST['serial_number']
+        # post.gate = gate
+        personal.save()
+    context = {
+        'username': username,
+        'gate':gate,
+        'bank_results': bank_results,
+        'personal_results': personal_results
     }
     return render(request, 'badgedinstaff.html', context)
 
@@ -234,6 +210,7 @@ def update_badge_nonstaff(request, pk):
     username = request.GET['username']
     gate = request.GET['gate']
     badge = Badge_nonstaff.objects.get(id=pk)
+    results = Badge_nonstaff.objects.all()
     if request.method == 'POST':
         badge.fullname = request.POST['name']
         badge.dest_dept = request.POST['dest_dept']
@@ -245,7 +222,8 @@ def update_badge_nonstaff(request, pk):
         badge.save()
     context = {
         'username': username,
-        'gate':gate
+        'gate':gate,
+        'results':results
     }
     # message = "<script>alert('updated successfully');</script>"
     return render(request, 'badgedinnonstaff.html', context)
@@ -268,47 +246,30 @@ def update_badge_out(request, pk):
     return render(request, 'update_badge_out.html', context)
 
 
-def view_items(request):
-    items_results = Item.objects.all()
-    items_count = items_results.count()
-    context = {
-        'items_results': items_results,
-        'items_count': items_count
-    }
-    return render(request, 'view_items.html', context)
-
-
-def view_badge(request):
-    badge_results = Badge.objects.all()
-    return render(request, 'view_badge.html', {'badge_results': badge_results})
-
-
-def view_person(request):
-    person_results = Person.objects.all()
-    return render(request, 'view_person.html', {'person_results': person_results})
-
 
 # function for deleting person
-def delete_bin_staff(request, pk):
+def delete_bin_staff_bank(request, pk):
     username = request.GET['username']
     gate = request.GET['gate']
-    badge = Badge_staff.objects.get(id=pk)
+    badge = Bank_gadgets.objects.get(id=pk)
     badge.badge_status = "out"
     now = dt.datetime.now()
     badge.date_time_out=now.strftime("%Y-%m-%d %H:%M:%S")
     badge.save()
-    results = Badge_staff.objects.filter(badge_status='out')
-    return render(request, 'badgedoutstaff.html', {"username":username,"gate":gate,"results":results})
+    staff_bank= Bank_gadgets.objects.filter(badge_status='out')
+    return render(request, 'badgedoutstaff.html', {"username":username,"gate":gate,"staff_bank":staff_bank})
 
+def delete_bin_staff_personal(request, pk):
+    username = request.GET['username']
+    gate = request.GET['gate']
+    badge = Personal_gadgets.objects.get(id=pk)
+    badge.badge_status = "out"
+    now = dt.datetime.now()
+    badge.date_time_out=now.strftime("%Y-%m-%d %H:%M:%S")
+    badge.save()
+    staff_personal = Personal_gadgets.objects.filter(badge_status='out')
+    return render(request, 'badgedoutstaff.html', {"username":username,"gate":gate,"staff_personal":staff_personal})
 
-    
-
-
-# function for deleting item
-def delete_item(request, pk):
-    item_delete = Item.objects.get(id=pk)
-    item_delete.delete()
-    return redirect('view_item')
 
 
 # function for deleting badge
@@ -325,58 +286,12 @@ def delete_badge(request, pk):
     
 
 
-# function to search in the data Person
-def person_search_bar(request):
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        if query:
-            persons = Person.objects.filter(organisation__icontains=query)
-            return render(request, 'person_search.html', {'persons': persons})
-        else:
-            print("No person to search from")
-            return render(request, 'person_search.html', {})
-
-
-# function to search in the data item
-def item_search_bar(request):
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        if query:
-            items = Item.objects.filter(item_name__icontains = query)
-            context = {
-                'items': items
-                       }
-            return render(request, 'item_search.html', context)
-        else:
-            print("No Items to search from")
-            return render(request, 'item_search.html', {})
-
-
-# Function to search for badges or badged items
-def badge_search_bar(request):
-    if request.method == 'GET':
-        query = request.GET.get('query')
-        if query:
-            badges = Badge.objects.filter(location__icontains=query)
-
-            context = {
-                'badges': badges,
-            }
-            return render(request, 'badge_search.html', context)
-        else:
-            print("No Badge to search from")
-            return render(request, 'badge_search.html', {})
-
-
 # function for badge in staff
 def badgeIn_staff(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    # results = Badge_staff.objects.only('employee_id')
-    if request.method == 'POST' and request.POST['bank_gadget']:
-        # row = request.POST['row']
-        # print(row)
-        # for x in row:
+   
+    if request.method == 'POST':
         post = Badge_staff()
         post.employee_ID = request.POST['employee_id']
         post.bank_gadget = request.POST['bank_gadget']
@@ -394,15 +309,20 @@ def badgeIn_staff(request):
 def badgeIn(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    if request.method == 'POST' and request.POST['personal_gadget']:
-        post = Badge_staff()
+    if request.method == 'POST' and request.POST['bgadget_id']:
+        post = Bank_gadgets()
         post.employee_ID = request.POST['employee_id']
-        # post.bank_gadget = request.POST['bank_gadget']
-        # post.bank_gadget_SN = request.POST['bserial_number']
-        post.personal_gadget = request.POST['personal_gadget']
-        post.serial_number = request.POST['serial_number']
+        post.bank_gadget = request.POST['bgadget_id']
+        post.bank_gadget_SN = request.POST['bserial_number']
         post.gate = gate
         post.save()
+    if request.method == 'POST' and request.POST['personal_gadget']:
+        post2 = Personal_gadgets()
+        post2.employee_ID = request.POST['employee_id']
+        post2.personal_gadget = request.POST['personal_gadget']
+        post2.serial_number = request.POST['serial_number']
+        post2.gate = gate
+        post2.save()
         # messages.error(request, "<script>alert('Badge In successful');</script>")
     context={
         'username': username,
@@ -411,18 +331,19 @@ def badgeIn(request):
     return render(request, 'badgeIn.html', context)
     
 
-    return render(request, 'badgeIn.html', context)
-
 # function for badge out staff
 def badgeout_staff(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    results = Badge_staff.objects.filter(badge_status="in")
-    p = Paginator(Badge_staff.objects.filter(badge_status="in"),5)
+    # results = Badge_staff.objects.filter(badge_status="in")
+    p = Paginator(Bank_gadgets.objects.filter(badge_status="in"),20)
     page = request.GET.get('page')
+    staff_bank = p.get_page(page)
 
-    staff = p.get_page(page)
-    return render(request, 'badgeout_staff.html', {"username":username,"gate":gate, 'results':results,"staff":staff})
+    p2 = Paginator(Personal_gadgets.objects.filter(badge_status="in"),20)
+    page = request.GET.get('page')
+    staff_personal = p2.get_page(page)
+    return render(request, 'badgeout_staff.html', {"username":username,"gate":gate, 'staff_bank':staff_bank,"staff_personal":staff_personal})
 
 #function for badge in non staff
 def badgeIn_nonstaff(request):
@@ -458,25 +379,23 @@ def badgeout_nonstaff(request):
 def badgedinstaff(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    results = Badge_staff.objects.all()
-
-    p = Paginator(Badge_staff.objects.filter(badge_status="in"),5)
-    page = request.GET.get('page')
-
-    staff = p.get_page(page)
+    bank_results = Bank_gadgets.objects.all()
+    personal_results = Personal_gadgets.objects.all()
     # results = Badge_nonstaff.objects.all()
-    return render(request, 'badgedinstaff.html', {"username":username,"gate":gate,"results":results, "staff":staff})
+    return render(request, 'badgedinstaff.html', {"username":username,"gate":gate, "bank_results":bank_results,'personal_results':personal_results})
 
 # function for badged out staff list
 def badgedoutstaff(request):
     username = request.GET['username']
     gate = request.GET['gate']
-    p = Paginator(Badge_staff.objects.filter(badge_status="out"),10)
+    p = Paginator(Bank_gadgets.objects.filter(badge_status="out"),20)
     page = request.GET.get('page')
+    staff_bank = p.get_page(page)
 
-    staff = p.get_page(page)
-    results = Badge_staff.objects.filter(badge_status="out")
-    return render(request, 'badgedoutstaff.html', {"username":username,"gate":gate,"results":results,"staff":staff})
+    p2 = Paginator(Personal_gadgets.objects.filter(badge_status="out"),20)
+    page = request.GET.get('page')
+    staff_personal = p2.get_page(page)
+    return render(request, 'badgedoutstaff.html', {"username":username,"gate":gate,"staff_bank":staff_bank,"staff_personal":staff_personal})
 
 # function for badged in nonstaff list
 def badgedinnonstaff(request):
@@ -509,7 +428,7 @@ def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
         results = Badge_nonstaff.objects.filter(Q(fullname__icontains=searched) | Q(visitor_ID__icontains=searched)| Q(dest_dept__icontains=searched) | Q(gate__icontains=searched))
-        results2 = Badge_staff.objects.filter(Q(employee_ID__icontains=searched) | Q(bank_gadget__icontains=searched)| Q(personal_gadget__icontains=searched))
+        results2 = Bank_gadgets.objects.filter(Q(employee_ID__icontains=searched) | Q(bank_gadget__icontains=searched))
         x = {'badge':'badge in','badge2': 'badge in staff'}
         context = {
             'username':username,

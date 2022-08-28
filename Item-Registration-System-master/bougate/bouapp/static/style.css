@@ -18,6 +18,10 @@
 {
     width: 7%;
 }
+.sidebar.active .search
+{
+    display: none;
+}
 
 .sidebar.active img
 {

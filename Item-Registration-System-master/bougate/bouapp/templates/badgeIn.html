@@ -32,7 +32,10 @@ Badge in gadget
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
           <div class="  bg-white shadow p-3" style="margin-left: 20px;">
-            <h5 class="text-left mb-3">Enter Staff Details</h5>
+            
+            <form action="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="form" method="post" style="font-size: 13px;">
+              {% csrf_token %}
+              <h5 class="text-left mb-3">Enter Staff Details</h5>
               <div class="row">
                 <div class="form-group col-6">
                   <label for="">Employee ID: </label>
@@ -41,45 +44,43 @@ Badge in gadget
                 <div class="form-group col-6 mb-2" >
                   <label for=""> Gadget Owner: </label>
                   <select name="gadget_owner" id="gadget_owner" onchange="chooseowner()" class="form-control"  style="height: 31px">
-                    <option value="">------</option>
+                    <option value="">Select here</option>
                     <option value="Bank">Bank</option>
                     <option value="Personal">Personal</option>
                   </select>
                 </div>
-            <form action="" class="form" onsubmit="return false" style="font-size: 13px;">
-              
                 
               </div>
               <div class="row" id="bank" style="display: none;">
-                <div class="form-group mb-2 col-6">
-                  <label for="">Bank Gadget ID</label>
+                <div class="form-group mb-3 col-12">
+                  <label for="">Bank Gadget</label>
                   <input type="text" name="bgadget_id" id="bgadget_id" class="form-control" style="height: 30px">
                 </div>
-                <div class="form-group mb-2 col-6">
+                <div class="form-group mb-3 col-12">
                   <label for="">Serial Number</label>
                   <input type="text" name="bserial_number" id="bserial_number" class="form-control" style="height: 30px">
                 </div>
               </div>
               <div class="row" id="personal" style="display: none;">  
-                <div class="form-group mb-2 col-6">
-                  <label for="">Gadget name:</label>
-                  <input type="text" name="pgadget_name" id="pgadget_name" class="form-control" style="height: 30px">
+                <div class="form-group mb-3 col-12">
+                  <label for="">Gadget type:</label>
+                  <input type="text" name="personal_gadget" id="pgadget_name" class="form-control" style="height: 30px">
                 </div>
-                <div class="form-group mb-2 col-6">
+                <div class="form-group mb-2 col-12">
                   <label for="">Serial number:</label>
                   <input type="text" name="serial_number" id="serial_number" class="form-control" style="height: 30px">
                 </div>
               </div>
               <div style="display: flex; justify-content: space-between;">
-                <button style="margin-right:2px ;" id="add" class="form-control btn-success" onclick="displaystaff()" >Add Gadget</button><br>
-                <input type="reset" class="form-control btn-secondary" value="Reset">
+                <input type="submit" value="BADGE IN" class="text-white rounded p-1" style="background-color: #2A0403; float: left; width: 200px;">
+                <!-- <input type="reset" class="form-control btn-secondary" value="Reset"> -->
               </div>
             </form>
           </div>
         </div>
         <div class="col-lg-2"></div>
       </div>
-      <div class="row mt-4">
+      <!-- <div class="row mt-4">
         <div class="col-lg-12"  id="display" style="display: none;">
           <form action="{% url 'badgeIn_staff' %}?username={{username}}&gate={{gate}}" method="post">
             {% csrf_token %}
@@ -88,20 +89,20 @@ Badge in gadget
                 <tr>
                   <th>Employee ID</th>
                   <th>Bank Gadget ID</th>
-                  <th>Serial No (bank)</th>
+                  <th>Serial No (bank)</th> -->
                   <!-- <th>Action</th> -->
-                </tr>
+                <!-- </tr>
               </thead>
               <tbody>
                 
               </tbody>
             </table>
-            <input type="hidden" id="output" value="" name="row" class="form-control">
+            <input type="hidden" id="output" value="" name="row" class="form-control"> -->
             <!-- <p id="output"></p> -->
-            <input type="submit" value="BADGE IN" class="text-white rounded p-1" style="background-color: #2A0403; float: left; width: 200px;">
+            <!-- <input type="submit" value="BADGE IN" class="text-white rounded p-1" style="background-color: #2A0403; float: left; width: 200px;">
           </form>
-        </div>
-        <div class="col-lg-12"  id="display2" style="display: none;">
+        </div> -->
+        <!-- <div class="col-lg-12"  id="display2" style="display: none;">
           <form action="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" method="post">
             {% csrf_token %}
             <table class="table shadow p-3" id="show2">
@@ -110,8 +111,8 @@ Badge in gadget
                   <th>Employee ID</th>
                   <th>Personal Gadget ID</th>
                   <th>Serial Number</th>
-                  <!-- <th>Action</th> -->
-                </tr>
+                  <th>Action</th> -->
+                <!-- </tr>
               </thead>
               
               <tbody>
@@ -123,7 +124,7 @@ Badge in gadget
             <input type="submit" value="BADGE IN" class="text-white rounded p-1" style="background-color: #2A0403; float: left;  width: 200px;">
           </form>
         </div>
-      </div>
+      </div>-->
     </div>
 <!-- non staff -->
     <div class="row nonstaff" id="nonstaff" style="display: none;">
@@ -131,52 +132,52 @@ Badge in gadget
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
           <div class="  bg-white shadow p-3" style=" margin-left: 20px;">
-            <h5 class="text-left mb-3">Enter Non Staff Details</h5>
+            
+            <form action="{% url 'badgeIn_nonstaff' %}?username={{username}}&gate={{gate}}" method="post" style="font-size: 13px;">
+              {% csrf_token %}
+              <h5 class="text-left mb-3">Enter Non Staff Details</h5>
               <div class="row">
                 <div class="form-group col-6">
                   <label for="">Visitor ID: </label>
-                  <input type="text" id="visitor_id" class="form-control" value="" style="height: 30px">
+                  <input type="text" id="visitor_id" name="visitor_id" class="form-control" value="" style="height: 30px">
                 </div>
                 <div class="form-group col-6 mb-2" >
                   <label for=""> Full name: </label>
-                  <input type="text" id="name"  class="form-control" c style="height: 30px">
+                  <input type="text" id="name" name="name"  class="form-control" c style="height: 30px">
                 </div>
                 
               </div>
               <div class="row">
                 <div class="form-group mb-2 col-6">
                   <label for="">Dest.Dept:</label>
-                  <input type="text" id="dest_dept"  class="form-control" style="height: 30px">
+                  <input type="text" id="dest_dept" name="dest_dept"  class="form-control" style="height: 30px">
                 </div>
                 <div class="form-group mb-2 col-6">
                   <label for="">Contact:</label>
-                  <input type="text" id="contact"  class="form-control" style="height: 30px">
+                  <input type="text" id="contact" name="contact"  class="form-control" style="height: 30px">
                 </div>
               </div>
-            <form action="" style="font-size: 13px;" onsubmit="return false">
-              <!-- {% csrf_token %} -->
-              
               <div class="row">
                 <div class="form-group mb-2 col-6">
                   <label for="">Gadget Name:</label>
-                  <input type="text" id="gadget_name"  class="form-control" style="height: 30px">
+                  <input type="text" id="gadget_name" name="gadget_name"  class="form-control" style="height: 30px">
                 </div>
                 <div class="form-group mb-2 col-6">
                   <label for="">Serial Number:</label>
-                  <input type="text" id="snumber"  class="form-control" style="height: 30px">
+                  <input type="text" id="snumber" name="serial_number"  class="form-control" style="height: 30px">
                 </div>
               </div>
               
               <div style="display: flex; justify-content: space-between;">
-                <button id="add" style="margin-right:2px ;" class="form-control btn-success" onclick="display()">Add Gadget</button>
-                <input type="reset" class="form-control btn-secondary" value="Reset">
+                <input type="submit" value="BADGE IN" class="text-white rounded p-1" style="background-color: #2A0403; float: left; width: 200px;">
+                <!-- <input type="reset" class="form-control btn-secondary" value="Reset"> -->
               </div>  
             </form>
           </div>
         </div>
         <div class="col-lg-2"></div>
       </div>
-      <div class="row mt-3">
+      <!-- <div class="row mt-3">
         <div class="col-lg-12">
           <form action="{% url 'badgeIn_nonstaff' %}?username={{username}}&gate={{gate}}" method="post">
             {% csrf_token %}
@@ -189,8 +190,8 @@ Badge in gadget
                   <th>Contact</th>
                   <th>Gadget no</th>
                   <th>Serial No</th>
-                  <!-- <th>Action</th> -->
-                </tr>
+                  <th>Action</th> -->
+                <!-- </tr>
               </thead>
               <tbody>
               </tbody>
@@ -198,7 +199,7 @@ Badge in gadget
             <input type="submit" value="BADGE IN" class="text-white rounded p-1" style="background-color: #2A0403; float: left; width: 200px;">
           </form>
         </div>
-      </div>
+      </div> -->
     </div>
     {% load static %}
     <script src="{% static 'script1.js' %}"></script>

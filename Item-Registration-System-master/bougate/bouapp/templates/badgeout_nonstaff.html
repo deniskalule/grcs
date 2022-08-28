@@ -24,7 +24,7 @@ Badge Out gadget
   <h5 class="text-left" style="font-weight: 600; margin-left: 10px;"></h5>
   
   <div class="row">
-    <div class="pages mt-2" style="padding-left: 45%;">
+    <!-- <div class="pages mt-2" style="padding-left: 45%;">
       {% if results.has_previous %}
     
         <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page=1&username={{username}}&gate={{gate}}">&laquo;</a>
@@ -35,10 +35,14 @@ Badge Out gadget
         <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{results.next_page_number}}&username={{username}}&gate={{gate}}">next</a>
         <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{results.paginator.num_pages}}&username={{username}}&gate={{gate}}">&raquo;</a>
       {% endif %}
+    </div> -->
+    <div class="header mt-3" style="display: flex; justify-content: space-between;" >
+      <input type="text" class="form-control" id="search" placeholder="Search here .........." onkeyup="searchfunction()" style="width: 600px;">
+      <a href="{% url 'badgedoutnonstaff' %}?username={{username}}&gate={{gate}}" style="font-size: 12px;" class="btn btn-primary">View list</a>
     </div>
     <div class="shadow m-2">
-      <a href="{% url 'badgedoutnonstaff' %}?username={{username}}&gate={{gate}}" style="float: right; font-size: 12px;" class="btn btn-primary m-2">View list</a>
-      <table class="table mt-3">
+      
+      <table class="table mt-3" id="product-table">
         <thead>
             <tr>
                 <th>#</th>
@@ -53,11 +57,11 @@ Badge Out gadget
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="body">
             {% for result in results %}
-            <tr style="font-size: 13px;">
+            <tr style="font-size: 13px;" class="product">
                 <td scope="row">{{result.id}}</td>
-                <td>{{result.visitor_id}}</td>
+                <td><h6>{{result.visitor_ID}}</h6></td>
                 <td>{{result.fullname}}</td>
                 <td>{{result.dest_dept}}</td>
                 <td>{{result.contact}}</td>
@@ -79,5 +83,6 @@ Badge Out gadget
     
   </div>
 </div>
-
+{% load static %}
+<script src="{% static 'script1.js '%}"></script>
 {% endblock%}

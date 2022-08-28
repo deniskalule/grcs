@@ -19,60 +19,14 @@
         base template
       {% endblock title %}
     </title>
+
+    <style>
+
+    </style>
   </head>
   <body>
   <header>
 
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <p> -->
-<!--          Adding a logo to all Pages -->
-          <!-- {% load static %}
-          <img src="{% static 'bou.png'%}" height="50px" alt="">
-        </p>
-    <a class="navbar-brand" href="#"><h4 class="p-2">ITEMS REGISTRATION SYSTEM</h4></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{%url 'home' %}">Home</a>
-        </li>
-
-        <li class="nav-item">
-
-          <a class="nav-link text-dark" href="{% url 'badge' %}"><b>Badge In Item</b></a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link text-danger" href="{% url 'view_badge' %}"><b>Badge Out Items</b></a>
-        </li>
-      </ul>
-        {% if user.is_authenticated %}
-
-          <li class="nav-item mr-3 list-unstyled">
-            <a href="javascript:{document.getElementById('logout').submit()}" class="btn btn-danger m-3">
-              <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
-            <form action="{% url 'logout' %}" id="logout" method="POST">
-              {% csrf_token %}
-              <input type="hidden">
-            </form>
-        </li>
-
-
-         {% else %}
-
-              <li class="nav-item m-3 list-unstyled">
-                <a href="{% url 'login' %}" class="btn btn-success m-1">Login</a>
-              </li>
-
-      {% endif %}
-
-    </div>
-  </div>
-
-</nav> -->
 </header>
 
   <div class="container-fluid">
@@ -94,41 +48,29 @@
         <!-- links -->
         <div class="links">
           <div class= "search" style="margin-right: 10px;">
-            <form action="{% url 'search' %}?username={{username}}&gate={{gate}}" method="post" style="display: flex;">
+            <form class="" action="{% url 'search' %}?username={{username}}&gate={{gate}}" method="post" style="display: flex;">
               {% csrf_token %}
               <input class="form-control mb-3" name="searched" placeholder="Search" width="">
               <button type="submit" class="btn bg-secondary ml-1" style="height: 40px;"><i class=" text-white fas fa-search    "></i></button>
             </form>
           </div>
           
-          <a href="{% url 'home' %}?username={{username}}&gate={{gate}}">
-            <div class="home mb-4 pl-3">
+          <a href="{% url 'home' %}?username={{username}}&gate={{gate}}" >
+            <div class="home pl-3" style="margin-bottom: 30px;">
               <i class="fas fa-home    "></i>
               <span>HOME</span>
             </div>
           </a>
           <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}">
-            <div class="home mb-4 pl-3">
+            <div class="home pl-3" style="margin-bottom: 30px;">
               <i class="fas fa-id-badge    "></i>
               <span>BADGE IN</span>
             </div>
           </a>
 
-          <!-- <div class="badge-in outer mb-4">
-            <ul id="id">
-              <li style="list-style-type: none; margin-left: -30px;">
-                <i class="fas fa-id-badge    "></i>
-                <span class ="arrow">BADGE IN </span>
-                <ul class="nested">
-                  <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}"><li>STAFF</li></a>
-                  <a href="{% url 'badgeIn_nonstaff' %}?username={{username}}&gate={{gate}}"><li>NON-STAFF</li></a>
-                </ul>
-              </li>
-            </ul>
-          </div> -->
           
 
-          <div class="badge-out outer mb-4">
+          <div class="badge-out outer" style="margin-bottom: 20px;">
             <ul id="id">
               <li style="list-style-type: none; margin-left: -30px;">
                 <i class="fas fa-id-badge    "></i>
@@ -141,17 +83,16 @@
             </ul>
           </div>
           
-            <a href="javascript:{document.getElementById('logout').submit()}" class="btn ">
-              <div class="logout mb-4 pl-3">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>LOGOUT</span>
-              </div>
-              
-            </a>
-            <form action="{% url 'logout' %}" id="logout" method="POST">
-              {% csrf_token %}
-              <input type="hidden">
-            </form>
+            <!-- <a href="" style="margin-left: -10px;"> -->
+              <form action="{% url 'logout' %}" id="logout" method="POST">
+                {% csrf_token %}
+                <div class="logout pl-3 text-danger">
+                  <i class=" fa fa-power-off" aria-hidden="true"></i>
+                  <input type="submit" value="LOGOUT" class="bg-light text-danger" style="border:0; font-weight: 700; font-size: 15px; margin-left: 4px;">
+                </div>
+              </form>
+            <!-- </a> -->
+            
         
         </div>
         <!-- links -->

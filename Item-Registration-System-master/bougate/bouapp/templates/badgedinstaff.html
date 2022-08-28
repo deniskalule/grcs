@@ -15,9 +15,9 @@ Badge in gadget
     </p>
 </div>
 
-<!-- <div class="category mt-2">
-  <div class="form-group">
-    <label for="">Category:</label>
+<div class="category mt-2">
+  <div class="form-group" style="display: flex;">
+    <label for="" style="padding-top: 13px; margin-right: 8px;">Category:</label>
     <select name="category" id="category" onchange="choosecategory()" class="form-control mt-2" style="width: 400px;">
       <option value="">------------</option>
       <option value="bank" style="font-size: 15px;">Bank Gadget</option>
@@ -25,28 +25,18 @@ Badge in gadget
     </select>
   </div>
   
-</div> -->
-<div id="bank" >
-  <div class="header mb-2" style="display: flex;  justify-content: space-between;">
-    <div class="pages mt-2 "style="padding-left: 5%;">
-      {% if staff.has_previous %}
-    
-        <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page=1&username={{username}}&gate={{gate}}">&laquo;</a>
-        <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{staff.previous_page_number}}&username={{username}}&gate={{gate}}">Previous</a>
-      {% endif %}
-      <span style="font-size: 12px;">Pages {{staff.number}} of {{staff.paginator.num_pages}}</span>
-      {% if staff.has_next %}
-        <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{staff.next_page_number}}&username={{username}}&gate={{gate}}">next</a>
-        <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{staff.paginator.num_pages}}&username={{username}}&gate={{gate}}">&raquo;</a>
-      {% endif %}
-    </div>
-    
-    <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="btn btn-primary mt-2" style="font-size: 13px; height: 30px;">Badge in new</a>
-  </div>
-  <div class="header text-center">
+</div>
+<div id="bank" style="display: none;">
+ 
+  <div class="header text-center mt-3" style="display: flex; justify-content: space-between;">
     <h5><b>BANK GADGETS</b></h5>
+    <!-- <form action=""> -->
+      <input type="text" class="form-control" id="search" placeholder="Search here .........." onkeyup="searchfunction()" style="width: 600px;">
+    <!-- </form> -->
+    <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary" style="">Badge in new</a>
   </div>
-<table class="table mt-1 shadow rounded" id = "show" style="font-size: 13px;">
+  
+<table class="table mt-1 shadow rounded" style="font-size: 13px;" id="product-table">
     <thead>
         <tr>
             <th>#</th>
@@ -58,17 +48,17 @@ Badge in gadget
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
-        {% for result in staff %}
+    <tbody id="body">
+        {% for result in bank_results %}
           {%if result.bank_gadget%}
 
-          <tr>
+          <tr class="product">
             <td scope="row">{{result.id}}</td>
-            <td>{{result.employee_ID}}</td>
-            <td>{{result.bank_gadget}}</td>
+            <td><h6>{{result.employee_ID}}</h6></td>
+            <td><h6>{{result.bank_gadget}}</h6></td>
             <td>{{result.bank_gadget_SN}}</td>
-            <td>{{result.gate}}</td>
-            <td>{{result.date_time}}</td>
+            <td><h6>{{result.gate}}</h6></td>
+            <td><h6>{{result.date_time}}</h6></td>
             <td class="text-center">
                 <!-- capturing data for -->
                 <!-- Button trigger modal -->
@@ -86,7 +76,7 @@ Badge in gadget
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="update_badge_staff/{{result.id}}/?username={{username}}&gate={{gate}}" method="post">
+                            <form action="update_bank_gadget/{{result.id}}/?username={{username}}&gate={{gate}}" method="post">
                             
                                 {% csrf_token %}
                                 
@@ -102,12 +92,8 @@ Badge in gadget
                                 </div>
                                 <div class="row">
                                   <div class="form-group col-12 mt-2">
-                                    <label for="">Personal Gadget: </label>
-                                    <input type="text" name="personal_gadget" value="{{result.personal_gadget}}" class="form-control">
-                                  </div>
-                                  <div class="form-group col-12 mt-2">
                                     <label for="">Serial Number: </label>
-                                    <input type="text" name="serial_number" value="{{result.serial_number}}" class="form-control">
+                                    <input type="text" name="bserial_number" value="{{result.bank_gadget_SN}}" class="form-control">
                                   </div>
                                 </div>
                                 <div class="modal-footer mt-2">
@@ -129,12 +115,15 @@ Badge in gadget
 </table>
 
 </div>
-<div id="personal" style="">
-  <!-- <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary mt-2" style="font-size: 13px; margin-left: 90%;">Badge in new</a> -->
-  <div class="header text-center mt-3">
+<div id="personal" style="display: none;">
+  <div class="header text-center mt-3" style="display: flex; justify-content: space-between;">
     <h5><b>PERSONAL GADGETS</b></h5>
+    <!-- <form action=""> -->
+      <input type="text" class="form-control" id="search2" placeholder="Search here .........." onkeyup="search()" style="width: 600px;">
+    <!-- </form> -->
+    <a href="{% url 'badgeIn' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary" style="">Badge in new</a>
   </div>
-  <table class="table mt-1 shadow rounded" id = "show" style="font-size: 13px;">
+  <table class="table mt-1 shadow rounded" id="product-table2" style="font-size: 13px;">
     <thead>
         <tr>
             <th>#</th>
@@ -146,26 +135,26 @@ Badge in gadget
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
-        {% for result in staff %}
-          {% if result.personal_gadget %}
-          <tr>
+    <tbody id="body2">
+        {% for result in personal_results %}
+          <!-- {% if result.personal_gadget%} -->
+          <tr class="product2">
             <td scope="row">{{result.id}}</td>
-            <td>{{result.employee_ID}}</td>
-            <td>{{result.personal_gadget}}</td>
+            <td><h6>{{result.employee_ID}}</h6></td>
+            <td><h6>{{result.personal_gadget}}</h6></td>
             <td>{{result.serial_number}}</td>
             <td>{{result.gate}}</td>
             <td>{{result.date_time}}</td>
             <td class="text-center">
                 <!-- capturing data for -->
                 <!-- Button trigger modal -->
-                <button style="width: 35px; height: 22px;" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal{{result.id}}">
+                <button style="width: 35px; height: 22px;" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal2{{result.id}}">
                     <i class=" text-primary fas fa-edit    "></i>
                     <!-- <span class="text-primary" style="font-size: 12px; ">Edit</span> -->
                 </button>
                 
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal{{result.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="exampleModal2{{result.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -173,7 +162,7 @@ Badge in gadget
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="update_badge_staff/{{result.id}}/?username={{username}}&gate={{gate}}" method="post">
+                            <form action="update_personal_gadget/{{result.id}}/?username={{username}}&gate={{gate}}" method="post">
                             
                                 {% csrf_token %}
                                 
@@ -183,15 +172,12 @@ Badge in gadget
                                     <input type="text" name="employee_id" value="{{result.employee_ID}}" class="form-control">
                                   </div>
                                   <div class="form-group col-6 mt-2">
-                                    <label for="">Bank Gadget: </label>
-                                    <input type="text" name="bank_gadget" value="{{result.bank_gadget}}" class="form-control">
-                                  </div>
-                                </div>
-                                <div class="row">
-                                  <div class="form-group col-12 mt-2">
                                     <label for="">Personal Gadget: </label>
                                     <input type="text" name="personal_gadget" value="{{result.personal_gadget}}" class="form-control">
                                   </div>
+                                </div>
+                                <div class="row">
+                                  
                                   <div class="form-group col-12 mt-2">
                                     <label for="">Serial Number: </label>
                                     <input type="text" name="serial_number" value="{{result.serial_number}}" class="form-control">
@@ -209,12 +195,13 @@ Badge in gadget
                 </div>
             </td>
         </tr>
-          {% endif %}
+          <!-- {% endif %} -->
         {% endfor %}
     </tbody>
 </table>
 </div>
-
+{% load static %}
+<script src="{% static 'script1.js '%}"></script>
 <script>
   function choosecategory()
       {
@@ -237,6 +224,8 @@ Badge in gadget
           document.getElementById("personal").style.display = "none";
         }
       }
+
+    
 </script>
 
 {% endblock%}

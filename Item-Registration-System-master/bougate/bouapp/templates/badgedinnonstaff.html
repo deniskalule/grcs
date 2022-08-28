@@ -14,7 +14,7 @@ Badge in gadget
       {{username}}
     </p>
 </div>
-<div class="pages mt-2" style="padding-left: 45%;">
+<!-- <div class="pages mt-2" style="padding-left: 45%;">
   {% if results.has_previous %}
 
     <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page=1&username={{username}}&gate={{gate}}">&laquo;</a>
@@ -25,9 +25,12 @@ Badge in gadget
     <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{results.next_page_number}}&username={{username}}&gate={{gate}}">next</a>
     <a class="btn btn-primary" style="height: 35px; font-size: 12px;" href="?page={{results.paginator.num_pages}}&username={{username}}&gate={{gate}}">&raquo;</a>
   {% endif %}
+</div> -->
+<div class="header mt-3" style="display: flex; justify-content: space-between;" >
+  <input type="text" class="form-control" id="search" placeholder="Search here .........." onkeyup="searchfunction()" style="width: 600px;">
+  <a href="{% url 'badgeIn_nonstaff' %}?username={{username}}&gate={{gate}}" class="btn btn-primary" style="font-size: 13px;">Badge in new</a>
 </div>
-<a href="{% url 'badgeIn_nonstaff' %}?username={{username}}&gate={{gate}}" class="float-right btn btn-primary mt-2" style="font-size: 13px; margin-left: 90%;">Badge in new</a>
-<table class="table m-2 shadow">
+<table class="table m-2 shadow" id="product-table">
     <thead>
         <tr>
             <th>#</th>
@@ -43,13 +46,13 @@ Badge in gadget
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="body">
         
         {% for result in results %}
-        <tr style="font-size: 13px;">
+        <tr style="font-size: 13px;" class="product">
             <td scope="row">{{result.id}}</td>
-            <td>{{result.visitor_ID}}</td>
-            <td>{{result.fullname}}</td>
+            <td><h6>{{result.visitor_ID}}</h6></td>
+            <td><h6>{{result.fullname}}</h6></td>
             <td>{{result.dest_dept}}</td>
             <td>{{result.contact}}</td>
             <td>{{result.gadget_name}}</td>
@@ -124,28 +127,7 @@ Badge in gadget
         
     </tbody>
 </table>
-<!-- {% for contact in page_obj %}
-    {# Each "contact" is a Contact model object. #}
-    {{ contact.full_name|upper }}<br>
-    ...
-{% endfor %}
-
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div> -->
+{% load static %}
+<script src="{% static 'script1.js '%}"></script>
 
 {% endblock%}
